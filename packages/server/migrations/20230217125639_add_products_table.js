@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('products', (table) => {
     table.increments();
-    table.string('platform_specific_id', 100).nullable();
+    table.string('external_id', 100).notNullable();
     table.text('title').notNullable();
     table.string('slug').notNullable();
 
@@ -10,6 +10,9 @@ exports.up = function (knex) {
 
     table.integer('category_id').unsigned();
     table.foreign('category_id').references('id').inTable('categories');
+
+    table.integer('platform_id').unsigned();
+    table.foreign('platform_id').references('id').inTable('platforms');
 
     table.text('url').nullable();
     table.text('url_affiliate').nullable();
@@ -23,8 +26,17 @@ exports.up = function (knex) {
     table.boolean('featured').defaultTo(false);
     table.boolean('sponsored').defaultTo(false);
     table.boolean('top_rated').defaultTo(false);
+    table.boolean('bestseller').defaultTo(false);
     table.integer('bought_last_month').unsigned().nullable();
     table.integer('rank').unsigned().nullable();
+    table.decimal('duration_hours', 5, 2).nullable();
+    table.boolean('instant_confirmation').defaultTo(false);
+    table.boolean('free_cancellation').defaultTo(false);
+    table.integer('max_group_size').nullable();
+    table.string('language').nullable();
+    table.string('meeting_point').nullable();
+    table.boolean('mobile_ticket').defaultTo(false);
+    table.boolean('likely_to_sell_out').defaultTo(false);
 
     table.string('meta_description').nullable();
 
@@ -35,6 +47,10 @@ exports.up = function (knex) {
 
     table.datetime('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
     table.datetime('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+    // -------------------
+    // Unique constraint
+    // -------------------
+    table.unique(['platform_id', 'external_id']);
   });
 };
 
