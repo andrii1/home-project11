@@ -106,6 +106,7 @@ export const Card = ({
         <div>
           <p className="price-card">
             {currency === 'USD' && <span>$</span>}
+            {currency === 'EUR' && <span>€</span>}
             <span className="amount">{price}</span>
           </p>
         </div>
