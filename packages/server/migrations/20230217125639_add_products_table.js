@@ -6,7 +6,7 @@ exports.up = function (knex) {
     table.string('slug').notNullable();
 
     table.text('description').nullable();
-    table.text('descriptionChatGpt').nullable();
+    table.text('description_ai').nullable();
 
     table.integer('category_id').unsigned();
     table.foreign('category_id').references('id').inTable('categories');
