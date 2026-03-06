@@ -14,6 +14,9 @@ exports.up = function (knex) {
     table.integer('platform_id').unsigned();
     table.foreign('platform_id').references('id').inTable('platforms');
 
+    table.integer('city_id').unsigned();
+    table.foreign('city_id').references('id').inTable('cities');
+
     table.text('url').nullable();
     table.text('url_affiliate').nullable();
     table.text('url_image').nullable();

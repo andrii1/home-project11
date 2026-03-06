@@ -62,8 +62,8 @@ export const getPageMeta = ({ filterConfig }) => {
   }
 
   return {
-    pageMetaTitle: 'Catch Daily Deals - find best products',
+    pageMetaTitle: 'Catch Daily Deals - find best activities',
     pageMetaDescription: 'Reviews, deals, promos.',
-    pageHeaderTitle: 'Find best products',
+    pageHeaderTitle: 'Find best activities',
   };
 };
