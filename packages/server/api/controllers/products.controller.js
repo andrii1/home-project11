@@ -207,11 +207,10 @@ const getProductsBy = async (params) => {
     other,
     search,
     tags,
-    features,
+    highlights,
     userTypes,
     occasions,
     useCases,
-    industries,
   } = params;
 
   const lastItemDirection = direction === 'asc' ? 'desc' : 'asc';
@@ -244,29 +243,26 @@ const getProductsBy = async (params) => {
 
   const tableMap = {
     tags: 'tags',
-    features: 'features',
+    highlights: 'highlights',
     userTypes: 'userTypes',
     occasions: 'occasions',
     useCases: 'useCases',
-    industries: 'industries',
   };
 
   const foreignKeyMap = {
     tags: 'tag_id',
-    features: 'feature_id',
+    highlights: 'highlight_id',
     userTypes: 'userType_id',
     occasions: 'occasion_id',
     useCases: 'useCase_id',
-    industries: 'industry_id',
   };
 
   const joinMap = {
     tags: 'tagsProducts',
-    features: 'featuresProducts',
+    highlights: 'highlightsProducts',
     userTypes: 'userTypesProducts',
     occasions: 'occasionsProducts',
     useCases: 'useCasesProducts',
-    industries: 'industriesProducts',
   };
 
   try {
@@ -312,11 +308,10 @@ const getProductsBy = async (params) => {
           // --- Many-to-many filters ---
           const manyToMany = {
             tags,
-            features,
+            highlights,
             userTypes,
             occasions,
             useCases,
-            industries,
           };
           for (const key in manyToMany) {
             applyManyToManyFilter(
@@ -425,7 +420,7 @@ const createProductNode = async (token, body) => {
         existing: true,
         productId: existingProduct.id,
         productTitle: body.title,
-        productAsin: existingProduct.asin,
+        productExternalId: existingProduct.external_id,
       };
 
     // === Tags ===
@@ -478,6 +473,22 @@ const createProductNode = async (token, body) => {
       max_tokens: 3000,
     });
     const description = completion.choices[0].message.content.trim();
+
+    const completionMetaDescription = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'user',
+          content: `Write a short, engaging meta description SEO for product "${
+            body.title
+          }"${body.url ? ` with link ${body.url}` : ''}.`,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 3000,
+    });
+    const metaDescription =
+      completionMetaDescription.choices[0].message.content.trim();
 
     //     // === Pricing + Attributes ===
 
@@ -548,7 +559,7 @@ const createProductNode = async (token, body) => {
     // - Can you make money with product "${body.title}"?
     // - Does it make sense to upgrade in product "${
     //           body.title
-    //         }"? What are main features of premium version.
+    //         }"? What are main highlights of premium version.
     // - Can you use product "${
     //           body.title
     //         }" for free? Any ways to credits/coins for free? Either via promos, invite codes, completing tasks, etc.
@@ -595,19 +606,16 @@ const createProductNode = async (token, body) => {
       city_id: body.city_id,
       platform_id: body.platform_id,
       description_ai: description,
+      meta_description: metaDescription,
     });
 
     // === Prompt builder ===
     const buildPrompt = (type, title, url, descriptionParam, quantity) => {
       const examples = {
-        features:
-          'E.g. Task management, Real-time chat, Analytics dashboard, Export to CSV, API access',
-        userTypes: 'E.g. Individuals, Teams, Students, Startups, Enterprises',
-        occasions: 'E.g. SaaS, Marketplace, Directory, Tool, Plugin, API',
-        useCases:
-          'E.g. Social media automation, Time tracking, Resume building, Text summarization',
-        industries:
-          'E.g. Healthcare, Legal, Real Estate, Content Creators, Developers',
+        highlights: 'E.g. Skip the line, Small group, Guided, Private tour',
+        userTypes: 'E.g. Individuals, Teams, Students',
+        occasions: 'E.g. Birthday, Honeymoon, School trip, Corporate event',
+        useCases: 'E.g. Photography, Food & Wine, History, Nature',
       };
 
       let base = `for this product: \"${title}\"`;
@@ -619,10 +627,10 @@ const createProductNode = async (token, body) => {
       )} should be without hashtag, can be multiple words. Maximum ${quantity} ${type}. Return ${type} separated by comma.`;
     };
 
-    // === Features, UserTypes, Occasions, UseCases, Industries ===
-    const featuresIds = await createItems(
-      buildPrompt('features', body.title, body.url, description, '5'),
-      'features',
+    // === Highlights, UserTypes, Occasions, UseCases, Industries ===
+    const highlightsIds = await createItems(
+      buildPrompt('highlights', body.title, body.url, description, '5'),
+      'highlights',
     );
     const userTypesIds = await createItems(
       buildPrompt('userTypes', body.title, body.url, description, '5'),
@@ -636,10 +644,6 @@ const createProductNode = async (token, body) => {
       buildPrompt('useCases', body.title, body.url, description, '5'),
       'useCases',
     );
-    const industriesIds = await createItems(
-      buildPrompt('industries', body.title, body.url, description, '5'),
-      'industries',
-    );
 
     // === Relations ===
     const insertRelations = async (table, key, ids) =>
@@ -649,16 +653,15 @@ const createProductNode = async (token, body) => {
         ),
       );
     await insertRelations('tagsProducts', 'tag_id', tagIds);
-    await insertRelations('featuresProducts', 'feature_id', featuresIds);
+    await insertRelations('highlightsProducts', 'highlight_id', highlightsIds);
     await insertRelations('userTypesProducts', 'userType_id', userTypesIds);
     await insertRelations('occasionsProducts', 'occasion_id', occasionsIds);
     await insertRelations('useCasesProducts', 'useCase_id', useCasesIds);
-    await insertRelations('industriesProducts', 'industry_id', industriesIds);
 
     return {
       successful: true,
       productId,
-      asin: body.asin,
+      external_id: body.external_id,
       productTitle: body.title,
       url: body.url,
     };
