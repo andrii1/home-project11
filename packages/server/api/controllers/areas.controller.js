@@ -64,7 +64,7 @@ const createArea = async (token, body) => {
 
     const insertData = {
       title: body.title,
-
+      country_id: body.country_id,
       slug: uniqueSlug,
     };
 

@@ -3,7 +3,6 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
-const fetchSerpApiAmazon = require('./serpApiAmazon');
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;

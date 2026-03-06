@@ -415,8 +415,10 @@ const createProductNode = async (token, body) => {
     // === Check for existing products ===
 
     const existingProduct = await knex('products')
-      .where({ asin: body.asin })
+      .where('external_id', body.external_id)
+      .andWhere('platform_id', body.platform_id)
       .first();
+
     if (existingProduct)
       return {
         successful: true,
@@ -580,18 +582,19 @@ const createProductNode = async (token, body) => {
 
     // === Insert product ===
     const [productId] = await knex('products').insert({
-      asin: body.asin,
+      external_id: body.external_id,
       title: body.title,
       slug: uniqueSlug,
       price: body.price,
       rating: body.rating,
       reviews: body.review,
-      category_id: body.category_id,
       url: body.url,
       url_affiliate: body.url_affiliate,
-      url_serpapi: body.url_serpapi,
-      url_image: body.url_image,
-      descriptionChatGpt: description,
+      discount_percentage: body.discount_percentage,
+      category_id: body.category_id,
+      city_id: body.city_id,
+      platform_id: body.platform_id,
+      description_ai: description,
     });
 
     // === Prompt builder ===

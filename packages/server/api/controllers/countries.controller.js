@@ -65,7 +65,6 @@ const createCountry = async (token, body) => {
 
     const insertData = {
       title: body.title,
-      nodeId: body.nodeId,
       slug: uniqueSlug,
     };
 
