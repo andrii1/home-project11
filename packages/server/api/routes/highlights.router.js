@@ -6,17 +6,17 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 // controllers
-const featuresController = require('../controllers/features.controller');
+const highlightsController = require('../controllers/highlights.controller');
 
 router.get('/', (req, res, next) => {
   if (req.query.product) {
-    featuresController
-      .getFeaturesByProduct(req.query.product)
+    highlightsController
+      .getHighlightsByProduct(req.query.product)
       .then((result) => res.json(result))
       .catch(next);
   } else {
-    featuresController
-      .getFeatures()
+    highlightsController
+      .getHighlights()
       .then((result) => res.json(result))
       .catch(next);
   }

@@ -23,11 +23,11 @@ const keywords = require('./keywords.router');
 // const replies = require('./replies.router');
 // const ratingsForThreads = require('./ratingsForThreads.router');
 const tags = require('./tags.router');
-const features = require('./features.router');
+const highlights = require('./highlights.router');
 const userTypes = require('./userTypes.router');
 const occasions = require('./occasions.router');
 const useCases = require('./useCases.router');
-const industries = require('./industries.router');
+// const industries = require('./industries.router');
 const findAppleIdByUrl = require('./findAppleIdByUrl.router');
 const sitemaps = require('./sitemaps.router');
 
@@ -80,11 +80,11 @@ router.use('/keywords', keywords);
 // router.use('/replies', replies);
 // router.use('/ratingsForThreads', ratingsForThreads);
 router.use('/tags', tags);
-router.use('/features', features);
+router.use('/highlights', highlights);
 router.use('/userTypes', userTypes);
 router.use('/occasions', occasions);
 router.use('/useCases', useCases);
-router.use('/industries', industries);
+// router.use('/industries', industries);
 router.use('/findAppleIdByUrl', findAppleIdByUrl);
 router.use('/sitemaps', sitemaps);
 

@@ -277,10 +277,13 @@ const getProductsBy = async (params) => {
           'products.*',
           'categories.title as categoryTitle',
           'categories.slug as categorySlug',
+          'platforms.title as platformTitle',
+          'platforms.slug as platformSlug',
           knex.raw(`COUNT(DISTINCT favorites.id) as favoritesCount`),
           knex.raw(`COUNT(DISTINCT ratings.id) as ratingsCount`),
         )
         .leftJoin('categories', 'products.category_id', 'categories.id')
+        .leftJoin('platforms', 'products.platform_id', 'platforms.id')
         .leftJoin('favorites', 'products.id', 'favorites.product_id')
         .leftJoin('ratings', 'products.id', 'ratings.product_id')
         .groupBy('products.id', 'categories.title', 'categories.slug')
