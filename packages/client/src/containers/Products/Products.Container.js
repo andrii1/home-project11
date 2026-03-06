@@ -54,18 +54,16 @@ export const Products = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
-  const [features, setFeatures] = useState([]);
+  const [highlights, setHighlights] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
   const [occasions, setOccasions] = useState([]);
   const [useCases, setUseCases] = useState([]);
-  const [industries, setIndustries] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredTags, setFilteredTags] = useState([]);
-  const [filteredFeatures, setFilteredFeatures] = useState([]);
+  const [filteredHighlights, setFilteredHighlights] = useState([]);
   const [filteredUserTypes, setFilteredUserTypes] = useState([]);
   const [filteredOccasions, setFilteredOccasions] = useState([]);
   const [filteredUseCases, setFilteredUseCases] = useState([]);
-  const [filteredIndustries, setFilteredIndustries] = useState([]);
   const [filteredPricing, setFilteredPricing] = useState([]);
   const [filteredPlatforms, setFilteredPlatforms] = useState([]);
   const [filteredSocials, setFilteredSocials] = useState([]);
@@ -121,11 +119,10 @@ export const Products = () => {
 
     setFilteredCategories(filters.categories || []);
     setFilteredTags(filters.tags || []);
-    setFilteredFeatures(filters.features || []);
+    setFilteredHighlights(filters.highlights || []);
     setFilteredUserTypes(filters.userTypes || []);
     setFilteredOccasions(filters.occasions || []);
     setFilteredUseCases(filters.useCases || []);
-    setFilteredIndustries(filters.industries || []);
     setFilteredPricing(filters.pricing || []);
     setFilteredPlatforms(filters.platforms || []);
     setFilteredSocials(filters.socials || []);
@@ -155,9 +152,9 @@ export const Products = () => {
       params.append('tags', filteredTags.join(','));
     }
 
-    // Features
-    if (filteredFeatures.length > 0) {
-      params.append('features', filteredFeatures.join(','));
+    // Highlights
+    if (filteredHighlights.length > 0) {
+      params.append('highlights', filteredHighlights.join(','));
     }
 
     // User types
@@ -173,11 +170,6 @@ export const Products = () => {
     // useCases
     if (filteredUseCases.length > 0) {
       params.append('useCases', filteredUseCases.join(','));
-    }
-
-    // Industries
-    if (filteredIndustries.length > 0) {
-      params.append('industries', filteredIndustries.join(','));
     }
 
     // Pricing
@@ -236,11 +228,10 @@ export const Products = () => {
     filteredPlatforms,
     filteredSocials,
     filteredOther,
-    filteredFeatures,
+    filteredHighlights,
     filteredUserTypes,
     filteredOccasions,
     filteredUseCases,
-    filteredIndustries,
     searchParams,
     filteredSearch,
     filtersReady,
@@ -267,9 +258,9 @@ export const Products = () => {
       params.append('tags', filteredTags.join(','));
     }
 
-    // Features
-    if (filteredFeatures.length > 0) {
-      params.append('features', filteredFeatures.join(','));
+    // Highlights
+    if (filteredHighlights.length > 0) {
+      params.append('highlights', filteredHighlights.join(','));
     }
 
     // User types
@@ -285,11 +276,6 @@ export const Products = () => {
     // useCases
     if (filteredUseCases.length > 0) {
       params.append('useCases', filteredUseCases.join(','));
-    }
-
-    // Industries
-    if (filteredIndustries.length > 0) {
-      params.append('industries', filteredIndustries.join(','));
     }
 
     // Pricing
@@ -377,7 +363,7 @@ export const Products = () => {
   //   // ALL filters that should trigger a reset
   //   filteredCategories,
   //   filteredTags,
-  //   filteredFeatures,
+  //   filteredHighlights,
   //   filteredUserTypes,
   //   filteredOccasions,
   //   filteredUseCases,
@@ -415,11 +401,11 @@ export const Products = () => {
       setTags(sorted);
     }
 
-    async function fetchFeatures() {
-      const response = await fetch(`${apiURL()}/features/`);
+    async function fetchHighlights() {
+      const response = await fetch(`${apiURL()}/highlights/`);
       const data = await response.json();
       const sorted = data.sort((a, b) => a.title.localeCompare(b.title));
-      setFeatures(sorted);
+      setHighlights(sorted);
     }
 
     async function fetchUserTypes() {
@@ -443,20 +429,12 @@ export const Products = () => {
       setUseCases(sorted);
     }
 
-    async function fetchIndustries() {
-      const response = await fetch(`${apiURL()}/industries/`);
-      const data = await response.json();
-      const sorted = data.sort((a, b) => a.title.localeCompare(b.title));
-      setIndustries(sorted);
-    }
-
     fetchCategories();
     fetchTags();
-    fetchFeatures();
+    fetchHighlights();
     fetchUserTypes();
     fetchOccasions();
     fetchUseCases();
-    fetchIndustries();
   }, []);
 
   const updateUrlFromFilters = (filters) => {
@@ -515,9 +493,9 @@ export const Products = () => {
   //       currentValues = filteredTags;
   //       setter = setFilteredTags;
   //       break;
-  //     case 'features':
-  //       currentValues = filteredFeatures;
-  //       setter = setFilteredFeatures;
+  //     case 'highlights':
+  //       currentValues = filteredHighlights;
+  //       setter = setFilteredHighlights;
   //       break;
   //     case 'userTypes':
   //       currentValues = filteredUserTypes;
@@ -569,7 +547,7 @@ export const Products = () => {
   //   const allFilters = {
   //     categories: type === 'categories' ? newValues : filteredCategories,
   //     tags: type === 'tags' ? newValues : filteredTags,
-  //     features: type === 'features' ? newValues : filteredFeatures,
+  //     highlights: type === 'highlights' ? newValues : filteredHighlights,
   //     userTypes: type === 'userTypes' ? newValues : filteredUserTypes,
   //     occasions:
   //       type === 'occasions' ? newValues : filteredOccasions,
@@ -598,11 +576,10 @@ export const Products = () => {
     // Reset all filter states
     setFilteredCategories([]);
     setFilteredTags([]);
-    setFilteredFeatures([]);
+    setFilteredHighlights([]);
     setFilteredUserTypes([]);
     setFilteredOccasions([]);
     setFilteredUseCases([]);
-    setFilteredIndustries([]);
     setFilteredPricing([]);
     setFilteredPlatforms([]);
     setFilteredSocials([]);
@@ -676,32 +653,32 @@ export const Products = () => {
     );
   });
 
-  useEffect(() => {
-    async function fetchTrendingSearch() {
-      const response = await fetch(`${apiURL()}/analytics?search=true`);
-      const dataSearchAnalytics = await response.json();
+  // useEffect(() => {
+  //   async function fetchTrendingSearch() {
+  //     const response = await fetch(`${apiURL()}/analytics?search=true`);
+  //     const dataSearchAnalytics = await response.json();
 
-      const result = dataSearchAnalytics
-        .sort((a, b) => {
-          return b.activeUsers - a.activeUsers;
-        })
-        .slice(0, 20);
-      setSearchTrending(result);
-    }
+  //     const result = dataSearchAnalytics
+  //       .sort((a, b) => {
+  //         return b.activeUsers - a.activeUsers;
+  //       })
+  //       .slice(0, 20);
+  //     setSearchTrending(result);
+  //   }
 
-    fetchTrendingSearch();
-  }, []);
+  //   fetchTrendingSearch();
+  // }, []);
 
-  const searchList = searchTrending.map((searchItem) => {
-    return (
-      <Button
-        onClick={() => filterHandler('search', searchItem.searchId)}
-        primary={filteredTags.includes(String(searchItem.searchId))}
-        secondary={!filteredTags.includes(String(searchItem.searchId))}
-        label={capitalize(searchItem.searchId)}
-      />
-    );
-  });
+  // const searchList = searchTrending.map((searchItem) => {
+  //   return (
+  //     <Button
+  //       onClick={() => filterHandler('search', searchItem.searchId)}
+  //       primary={filteredTags.includes(String(searchItem.searchId))}
+  //       secondary={!filteredTags.includes(String(searchItem.searchId))}
+  //       label={capitalize(searchItem.searchId)}
+  //     />
+  //   );
+  // });
 
   useEffect(() => {
     let column;
@@ -860,11 +837,10 @@ export const Products = () => {
   const hasActiveFilters =
     filteredCategories.length > 0 ||
     filteredTags.length > 0 ||
-    filteredFeatures.length > 0 ||
+    filteredHighlights.length > 0 ||
     filteredUserTypes.length > 0 ||
     filteredOccasions.length > 0 ||
     filteredUseCases.length > 0 ||
-    filteredIndustries.length > 0 ||
     filteredPricing.length > 0 ||
     filteredPlatforms.length > 0 ||
     filteredSocials.length > 0 ||
@@ -887,11 +863,11 @@ export const Products = () => {
       options: tags,
     },
     {
-      key: 'features',
-      label: 'Features',
-      values: filteredFeatures,
-      setter: setFilteredFeatures,
-      options: features,
+      key: 'highlights',
+      label: 'Highlights',
+      values: filteredHighlights,
+      setter: setFilteredHighlights,
+      options: highlights,
     },
     {
       key: 'userTypes',
@@ -914,13 +890,7 @@ export const Products = () => {
       setter: setFilteredUseCases,
       options: useCases,
     },
-    {
-      key: 'industries',
-      label: 'Industries',
-      values: filteredIndustries,
-      setter: setFilteredIndustries,
-      options: industries,
-    },
+
     {
       key: 'pricing',
       label: 'Pricing',
@@ -962,6 +932,8 @@ export const Products = () => {
     filterConfig,
   });
 
+  console.log('products', products);
+
   return (
     <main>
       <Helmet>
@@ -998,7 +970,7 @@ export const Products = () => {
           </Link>
         </section>
       )}
-      {activeTab === 'Searches' && (
+      {/* {activeTab === 'Searches' && (
         <section className="container-topics-desktop">
           <Link to="/">
             <Button
@@ -1011,7 +983,7 @@ export const Products = () => {
 
           {searchList}
         </section>
-      )}
+      )} */}
       {hasActiveFilters && (
         <section className="container-active-filters">
           {/* Active filter chips */}
@@ -1146,15 +1118,15 @@ export const Products = () => {
         <div className="container-details filters">
           <div className="container-form">
             <div className="selector-group">
-              <h3>Features</h3>
+              <h3>Highlights</h3>
               <MultiSelectDropdown
-                options={features}
-                selected={filteredFeatures}
+                options={highlights}
+                selected={filteredHighlights}
                 onChange={filterHandler}
-                placeholder="Select features"
+                placeholder="Select highlights"
                 valueKey="slug"
                 labelKey="title"
-                title="features"
+                title="highlights"
               />
             </div>
             <div className="selector-group">
@@ -1191,18 +1163,6 @@ export const Products = () => {
                 valueKey="slug"
                 labelKey="title"
                 title="useCases"
-              />
-            </div>
-            <div className="selector-group">
-              <h3>Industries</h3>
-              <MultiSelectDropdown
-                options={industries}
-                selected={filteredIndustries}
-                onChange={filterHandler}
-                placeholder="Select industries"
-                valueKey="slug"
-                labelKey="title"
-                title="industries"
               />
             </div>
 
@@ -1249,7 +1209,7 @@ export const Products = () => {
                   listCard={listView}
                   id={product.id}
                   title={product.title}
-                  description={product.description}
+                  description={product?.description}
                   url={product.url}
                   urlImage={product.url_image || globe}
                   topic={product.categoryTitle}
@@ -1257,7 +1217,6 @@ export const Products = () => {
                   price={product.price}
                   currency={product.currency}
                   urlAffiliate={product.url_affiliate}
-                  pricingType={product.pricing_type}
                   isFavorite={favorites.some((x) => x.id === product.id)}
                   addFavorite={(event) => addFavorite(product.id)}
                   deleteBookmark={() => handleDeleteBookmarks(product.id)}

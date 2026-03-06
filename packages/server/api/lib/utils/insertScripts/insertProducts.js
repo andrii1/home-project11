@@ -73,6 +73,19 @@ if (!allowedDays.includes(todayDay)) {
   process.exit(0);
 }
 
+async function insertPlatform(title, url) {
+  const res = await fetch(`${API_PATH}/platforms`, {
+    method: 'POST',
+    headers: {
+      token: `token ${USER_UID}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, url }),
+  });
+  const data = await res.json();
+  return data; // assume it returns { id, full_name }
+}
+
 async function insertCategory(title) {
   const res = await fetch(`${API_PATH}/categories`, {
     method: 'POST',
@@ -112,14 +125,14 @@ async function insertArea(title, countryId) {
   return data; // assume it returns { id, full_name }
 }
 
-async function insertCity(title, areaId) {
+async function insertCity(title, areaId, countryId) {
   const res = await fetch(`${API_PATH}/cities`, {
     method: 'POST',
     headers: {
       token: `token ${USER_UID}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, area_id: areaId }),
+    body: JSON.stringify({ title, area_id: areaId, country_id: countryId }),
   });
   const data = await res.json();
   return data; // assume it returns { id, full_name }
@@ -174,14 +187,20 @@ const insertProducts = async () => {
 
   for (const product of products) {
     try {
+      const platform = 'GetYourGuide';
+      const platformUrl = 'https://www.getyourguide.com/';
+
       const category = product.Category;
       const country = product.Country;
       const area = product['Area/State'];
       const city = product.City;
-      const platformId = 1;
       const cleanUrl = product['Activity URL'].split('?')[0];
       const discount = Number(product['Save up to'].replace(/\D/g, ''));
       const price = Number(product['Price from'].replace(/[^0-9.]/g, ''));
+
+      const newPlatform = await insertPlatform(platform, platformUrl);
+      const { platformId } = newPlatform;
+      console.log('Inserted platform:', newPlatform);
 
       const newCategory = await insertCategory(category);
       const { categoryId } = newCategory;
@@ -195,7 +214,7 @@ const insertProducts = async () => {
       const { areaId } = newArea;
       console.log('Inserted area:', newArea);
 
-      const newCity = await insertCity(city, areaId);
+      const newCity = await insertCity(city, areaId, countryId);
       const { cityId } = newCity;
       console.log('Inserted city:', newCity);
 

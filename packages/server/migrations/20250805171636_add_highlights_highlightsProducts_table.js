@@ -14,8 +14,8 @@ exports.up = function (knex) {
       table.increments();
       table.integer('product_id').unsigned();
       table.foreign('product_id').references('id').inTable('products');
-      table.integer('feature_id').unsigned();
-      table.foreign('feature_id').references('id').inTable('highlights');
+      table.integer('highlight_id').unsigned();
+      table.foreign('highlight_id').references('id').inTable('highlights');
     });
 };
 

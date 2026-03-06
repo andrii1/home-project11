@@ -68,6 +68,7 @@ const createCity = async (token, body) => {
     const insertData = {
       title: body.title,
       area_id: body.area_id,
+      country_id: body.country_id,
       slug: uniqueSlug,
     };
 

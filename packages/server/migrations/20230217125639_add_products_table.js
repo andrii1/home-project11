@@ -41,7 +41,7 @@ exports.up = function (knex) {
     table.boolean('mobile_ticket').defaultTo(false);
     table.boolean('likely_to_sell_out').defaultTo(false);
 
-    table.string('meta_description').nullable();
+    table.text('meta_description').nullable();
 
     table.datetime('last_checked_at').nullable();
     table

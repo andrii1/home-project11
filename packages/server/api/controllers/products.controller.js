@@ -481,7 +481,9 @@ const createProductNode = async (token, body) => {
           role: 'user',
           content: `Write a short, engaging meta description SEO for product "${
             body.title
-          }"${body.url ? ` with link ${body.url}` : ''}.`,
+          }"${
+            body.url ? ` with link ${body.url}` : ''
+          }. Maximum 150 characters.`,
         },
       ],
       temperature: 0.7,
