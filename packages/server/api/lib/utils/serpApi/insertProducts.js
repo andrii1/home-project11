@@ -245,28 +245,28 @@ async function insertCity(title, areaId) {
 async function insertProduct({
   title,
   external_id,
-  price,
   rating,
+  price,
   reviews,
   url,
   url_affiliate,
-  url_serpapi,
-  url_image,
+  discount_percentage,
   categoryId,
   cityId,
+  platformId,
 }) {
   const body = {
     title,
     external_id,
-    price,
     rating,
+    price,
     reviews,
     url,
     url_affiliate,
-    url_serpapi,
-    url_image,
+    discount_percentage,
     category_id: categoryId,
     city_id: cityId,
+    platform_id: platformId,
   };
 
   const res = await fetch(`${API_PATH}/products/node`, {
@@ -297,6 +297,8 @@ const insertProducts = async () => {
       const city = product.City;
       const platformId = 1;
       const cleanUrl = product['Activity URL'].split('?')[0];
+      const discount = Number(product['Save up to'].replace(/\D/g, ''));
+      const price = Number(product['Price from'].replace(/[^0-9.]/g, ''));
 
       const newCategory = await insertCategory(category);
       const { categoryId } = newCategory;
@@ -318,10 +320,11 @@ const insertProducts = async () => {
         title: product['Tour Title'],
         external_id: product['Tour ID'],
         rating: product['AVG Rating'],
-        price: product.Reviews,
+        price,
         reviews: product.Reviews,
         url: cleanUrl,
         url_affiliate: product['Activity URL'],
+        discount_percentage: discount,
         categoryId,
         cityId,
         platformId,
@@ -331,7 +334,7 @@ const insertProducts = async () => {
       console.log('Inserted product:', newProduct);
     } catch (err) {
       console.error(
-        `❌ Failed to insert product ${product.asin}:`,
+        `❌ Failed to insert product ${product['Tour ID']}:`,
         err.message,
       );
       // continue with next app
