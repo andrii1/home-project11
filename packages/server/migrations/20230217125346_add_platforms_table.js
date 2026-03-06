@@ -1,3 +1,7 @@
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
 
 exports.up = function (knex) {
   return knex.schema.createTable('platforms', (table) => {
@@ -11,6 +15,6 @@ exports.up = function (knex) {
   });
 };
 
-export function down(knex) {
+exports.down = function (knex) {
   return knex.schema.dropTableIfExists('platforms');
-}
+};
