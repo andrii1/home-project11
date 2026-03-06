@@ -33,7 +33,7 @@ router.get('/', (req, res, next) => {
     req.query.other ||
     req.query.search ||
     req.query.tags ||
-    req.query.features ||
+    req.query.highlights ||
     req.query.userTypes ||
     req.query.occasions ||
     req.query.useCases ||
@@ -53,7 +53,7 @@ router.get('/', (req, res, next) => {
         other: req.query.other,
         search: req.query.search,
         tags: req.query.tags,
-        features: req.query.features,
+        highlights: req.query.highlights,
         userTypes: req.query.userTypes,
         occasions: req.query.occasions,
         useCases: req.query.useCases,

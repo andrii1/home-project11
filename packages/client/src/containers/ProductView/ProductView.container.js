@@ -120,8 +120,7 @@ export const ProductView = () => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [tags, setTags] = useState([]);
   const [occasions, setOccasions] = useState([]);
-  const [features, setFeatures] = useState([]);
-  const [industries, setIndustries] = useState([]);
+  const [highlights, setHighlights] = useState([]);
   const [useCases, setUseCases] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
   // const {
@@ -166,20 +165,12 @@ export const ProductView = () => {
       setOccasions(data);
     }
 
-    async function fetchFeaturesForProduct(productId) {
+    async function fetchHighlightsForProduct(productId) {
       const response = await fetch(
-        `${apiURL()}/features/?product=${productId}`,
+        `${apiURL()}/highlights/?product=${productId}`,
       );
       const data = await response.json();
-      setFeatures(data);
-    }
-
-    async function fetchIndustriesForProduct(productId) {
-      const response = await fetch(
-        `${apiURL()}/industries/?product=${productId}`,
-      );
-      const data = await response.json();
-      setIndustries(data);
+      setHighlights(data);
     }
 
     async function fetchUseCasesForProduct(productId) {
@@ -227,8 +218,8 @@ export const ProductView = () => {
       try {
         await fetchTagsForProduct(id);
         await fetchOccasionsForProduct(id);
-        await fetchFeaturesForProduct(id);
-        await fetchIndustriesForProduct(id);
+        await fetchHighlightsForProduct(id);
+
         await fetchUseCasesForProduct(id);
         await fetchUserTypesForProduct(id);
         // await fetchCodesForADeal(id);
@@ -714,6 +705,9 @@ export const ProductView = () => {
             <p className="price">
               {product.currency === 'USD' && (
                 <span className="currency">$</span>
+              )}
+              {product.currency === 'EUR' && (
+                <span className="currency">€</span>
               )}
               <span className="amount">
                 {Math.floor(parseFloat(product.price))}
@@ -1211,14 +1205,14 @@ export const ProductView = () => {
             )}
           </div>
           <div className="container-details container-badges">
-            <h2 className="no-margin">Features & use cases</h2>
-            {features.length > 0 && (
+            <h2 className="no-margin">Highlights & use cases</h2>
+            {highlights.length > 0 && (
               <div className="container-tags">
                 <div className="badges">
-                  <p className="p-no-margin">Features: </p>
+                  <p className="p-no-margin">Highlights: </p>
                   <div className="badges-keywords">
-                    {features.map((tag) => (
-                      <Link to={`../products/features/${tag.slug}`}>
+                    {highlights.map((tag) => (
+                      <Link to={`../products/highlights/${tag.slug}`}>
                         <Button
                           secondary
                           label={tag.title.toLowerCase()}
@@ -1251,7 +1245,7 @@ export const ProductView = () => {
             )}
           </div>
           <div className="container-details container-badges">
-            <h2 className="no-margin">Industries & users</h2>
+            <h2 className="no-margin">For who and when</h2>
 
             {userTypes.length > 0 && (
               <div className="container-tags">
@@ -1260,24 +1254,6 @@ export const ProductView = () => {
                   <div className="badges-keywords">
                     {userTypes.map((tag) => (
                       <Link to={`../products/userTypes/${tag.slug}`}>
-                        <Button
-                          secondary
-                          label={tag.title.toLowerCase()}
-                          size="small"
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-            {industries.length > 0 && (
-              <div className="container-tags">
-                <div className="badges">
-                  <p className="p-no-margin">Industries: </p>
-                  <div className="badges-keywords">
-                    {industries.map((tag) => (
-                      <Link to={`../products/industries/${tag.slug}`}>
                         <Button
                           secondary
                           label={tag.title.toLowerCase()}

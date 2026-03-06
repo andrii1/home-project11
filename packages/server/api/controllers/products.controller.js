@@ -296,11 +296,9 @@ const getProductsBy = async (params) => {
             const arr = search.split(',');
             qb.where(function () {
               arr.forEach((term) => {
-                this.orWhere('products.title', 'like', `%${term}%`).orWhere(
-                  'products.description',
-                  'like',
-                  `%${term}%`,
-                );
+                this.orWhere('products.title', 'like', `%${term}%`)
+                  .orWhere('products.description', 'like', `%${term}%`)
+                  .orWhere('products.description_ai', 'like', `%${term}%`);
               });
             });
           }
