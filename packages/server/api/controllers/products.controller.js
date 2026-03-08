@@ -464,7 +464,9 @@ const createProductNode = async (token, body) => {
           role: 'user',
           content: `Write a short, engaging description for product "${
             body.title
-          }"${body.url ? ` with link ${body.url}` : ''}.`,
+          }".${
+            body.url ? ` Here is a link ${body.url} for reference` : ''
+          }. Do not include link in description.`,
         },
       ],
       temperature: 0.7,
@@ -598,7 +600,7 @@ const createProductNode = async (token, body) => {
       slug: uniqueSlug,
       price: body.price,
       rating: body.rating,
-      reviews: body.review,
+      reviews: body.reviews,
       url: body.url,
       url_affiliate: body.url_affiliate,
       discount_percentage: body.discount_percentage,

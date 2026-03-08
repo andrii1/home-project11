@@ -730,7 +730,7 @@ export const ProductView = () => {
                         size="sm"
                       />
                     }
-                    label="Buy Now"
+                    label="Book Now"
                   />
                 </Link>
               )}
@@ -894,9 +894,9 @@ export const ProductView = () => {
                 <Markdown>{product.description}</Markdown>
               </p>
             )}
-            {product.descriptionChatGpt && (
+            {product.description_ai && (
               <p className="product-description main-description">
-                <Markdown>{product.descriptionChatGpt}</Markdown>
+                <Markdown>{product.description_ai}</Markdown>
               </p>
             )}
           </div>

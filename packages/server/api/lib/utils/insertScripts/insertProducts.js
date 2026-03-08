@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
+const parseNumber = require('../parseNumber');
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;
@@ -10,54 +11,36 @@ const API_PATH = process.env.API_PATH_ACTIVITIES_LOCAL;
 
 const products = [
   {
-    'Tour ID': '847818',
-    'Tour Title':
-      'Melbourne: Penguin Parade Tour with Puffing Billy Train Ride',
+    'Tour ID': '1026632',
+    'Tour Title': 'Rovaniemi: Aurora Tour – 100% Money-Back Guarantee & Photos',
     Category: 'Day Trips',
-    City: 'Melbourne',
-    'Area/State': 'Victoria',
-    Country: 'Australia',
-    'AVG Rating': '4.2',
-    Reviews: '34',
+    City: 'Rovaniemi',
+    'Area/State': 'Lapland',
+    Country: 'Finland',
+    'AVG Rating': '4.9',
+    Reviews: '1,343',
     'Activity URL':
-      'https://www.getyourguide.com/activity/-t847818?partner_id=FEYUTMR',
-    'Save up to': '11%',
+      'https://www.getyourguide.com/activity/-t1026632?partner_id=FEYUTMR',
+    'Save up to': '36%',
     From: '2026-03-06',
-    To: '2026-03-08',
-    'Price from': '€101.53',
+    To: '2026-03-31',
+    'Price from': '€88.96',
   },
   {
-    'Tour ID': '1116428',
-    'Tour Title':
-      'From Marrakech: Private 4-Day Tour To Merzouga & Luxury Camp',
-    Category: 'Multi-day Trips',
-    City: 'Fes',
-    'Area/State': 'Fès-Meknès',
-    Country: 'Morocco, Kingdom of',
-    'AVG Rating': '5.0',
-    Reviews: '1',
+    'Tour ID': '1062034',
+    'Tour Title': 'Chiang Rai: Northern Thailand Tour with Golden Triangle',
+    Category: 'Bus Tours',
+    City: 'Chiang Rai',
+    'Area/State': 'Chiang Rai (Province)',
+    Country: 'Thailand',
+    'AVG Rating': '4.9',
+    Reviews: '81',
     'Activity URL':
-      'https://www.getyourguide.com/activity/-t1116428?partner_id=FEYUTMR',
-    'Save up to': '18%',
-    From: '2026-03-06',
-    To: '2026-04-05',
-    'Price from': '€395.47',
-  },
-  {
-    'Tour ID': '527490',
-    'Tour Title': 'Holbox: Yum Balam Reserve Classic Boat Tour',
-    Category: 'Adventure Tours',
-    City: 'Holbox',
-    'Area/State': 'Isla Holbox',
-    Country: 'Mexico',
-    'AVG Rating': '4.7',
-    Reviews: '475',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t527490?partner_id=FEYUTMR',
+      'https://www.getyourguide.com/activity/-t1062034?partner_id=FEYUTMR',
     'Save up to': '5%',
     From: '2026-03-06',
-    To: '2026-03-13',
-    'Price from': '€32.31',
+    To: '2026-03-20',
+    'Price from': '€66.99',
   },
 ];
 
@@ -197,6 +180,7 @@ const insertProducts = async () => {
       const cleanUrl = product['Activity URL'].split('?')[0];
       const discount = Number(product['Save up to'].replace(/\D/g, ''));
       const price = Number(product['Price from'].replace(/[^0-9.]/g, ''));
+      const reviews = parseNumber(product.Reviews);
 
       const newPlatform = await insertPlatform(platform, platformUrl);
       const { platformId } = newPlatform;
@@ -223,7 +207,7 @@ const insertProducts = async () => {
         external_id: product['Tour ID'],
         rating: product['AVG Rating'],
         price,
-        reviews: product.Reviews,
+        reviews,
         url: cleanUrl,
         url_affiliate: product['Activity URL'],
         discount_percentage: discount,
