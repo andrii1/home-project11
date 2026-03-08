@@ -26,6 +26,7 @@ import Markdown from 'markdown-to-jsx';
 import { Loading } from '../../components/Loading/Loading.Component';
 import { useLikes } from '../../utils/hooks/useLikes';
 import { ThumbsUp, ThumbsDown, Globe } from 'lucide-react';
+import Rating from '../../components/Rating/Rating.component';
 
 import {
   faEnvelope,
@@ -701,7 +702,8 @@ export const ProductView = () => {
           /> */}
 
           {/* <ImageGallery items={images} /> */}
-          <div>
+          <div className="rating-price-group">
+            <Rating rating={product.rating} reviews={product.reviews} />
             <p className="price">
               {product.currency === 'USD' && (
                 <span className="currency">$</span>
