@@ -27,6 +27,7 @@ import { Loading } from '../../components/Loading/Loading.Component';
 import { useLikes } from '../../utils/hooks/useLikes';
 import { ThumbsUp, ThumbsDown, Globe } from 'lucide-react';
 import Rating from '../../components/Rating/Rating.component';
+import globe from '../../assets/images/globe.svg';
 
 import {
   faEnvelope,
@@ -422,6 +423,9 @@ export const ProductView = () => {
         urlImage={item.url_image === null ? 'deal' : item.url_image}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
+        rating={item.rating}
+        reviews={item.reviews}
+        urlImage={product.url_image || globe}
       />
     );
   });
