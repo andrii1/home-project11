@@ -43,8 +43,11 @@ export const Card = ({
   bookmarkOnClick,
   rating,
   reviews,
+  discount,
 }) => {
   const { user } = useUserContext();
+  // Calculate original price
+  const originalPrice = discount > 0 ? price / (1 - discount / 100) : price;
   if (smallCard) {
     return (
       <Link
@@ -110,12 +113,20 @@ export const Card = ({
               currency === 'EUR' && '€'
             } ${price} `}</span> */}
             <span className="price-from">From </span>
-
+            {/* {discount > 0 && (
+              <span className="original-price">
+                {currency === 'USD' && '$ '}
+                {currency === 'EUR' && '€ '}
+                {Math.floor(originalPrice)}.
+                {originalPrice.toFixed(2).split('.')[1]}
+              </span>
+            )} */}
             <span className="amount">
               {currency === 'USD' && '$'}
               {currency === 'EUR' && '€'}
               {price}
-            </span>
+            </span>{' '}
+            {discount > 0 && <span className="discount">-{discount}%</span>}
           </p>
         </div>
 
@@ -204,6 +215,7 @@ Card.propTypes = {
   urlAffiliate: PropTypes.string,
   rating: PropTypes.number.isRequired,
   reviews: PropTypes.number,
+  discount: PropTypes.number,
 };
 
 Card.defaultProps = {
@@ -232,4 +244,5 @@ Card.defaultProps = {
   currency: null,
   urlAffiliate: null,
   reviews: null,
+  discount: null,
 };

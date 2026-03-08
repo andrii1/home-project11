@@ -1225,6 +1225,7 @@ export const Products = () => {
                   cardUrl={`/products/${product.slug}`}
                   rating={product.rating}
                   reviews={product.reviews}
+                  discount={product.discount_percentage}
                 />
               );
             })}
