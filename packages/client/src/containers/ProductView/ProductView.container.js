@@ -420,12 +420,11 @@ export const ProductView = () => {
         urlAffiliate={item.url_affiliate}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image === null ? 'deal' : item.url_image}
+        urlImage={item.url_image || globe}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
         rating={item.rating}
         reviews={item.reviews}
-        urlImage={product.url_image || globe}
       />
     );
   });
@@ -647,6 +646,12 @@ export const ProductView = () => {
     );
   };
 
+  const discount = product.discount_percentage || 0;
+
+  // Calculate original price
+  const originalPrice =
+    discount > 0 ? product.price / (1 - discount / 100) : product.price;
+
   const faqsItems = faqs.map((faq) => {
     return (
       <div key={faq.id}>
@@ -708,20 +713,38 @@ export const ProductView = () => {
           {/* <ImageGallery items={images} /> */}
           <div className="rating-price-group">
             <Rating rating={product.rating} reviews={product.reviews} />
-            <p className="price">
-              {product.currency === 'USD' && (
-                <span className="currency">$</span>
-              )}
-              {product.currency === 'EUR' && (
-                <span className="currency">€</span>
-              )}
-              <span className="amount">
-                {Math.floor(parseFloat(product.price))}
-              </span>
-              <span className="cents">
-                {parseFloat(product.price).toFixed(2).split('.')[1]}
-              </span>
-            </p>
+            <div className="price-group">
+              {/* Discount */}
+              <div className="from-discount-group">
+                <span className="price-label">From</span>
+                {discount > 0 && (
+                  <span className="original-price">
+                    {product.currency === 'USD' && '$ '}
+                    {product.currency === 'EUR' && '€ '}
+                    {Math.floor(originalPrice)}.
+                    {originalPrice.toFixed(2).split('.')[1]}
+                  </span>
+                )}
+
+                {discount > 0 && <span className="discount">-{discount}%</span>}
+              </div>
+              {/* Original price */}
+              <div className="price">
+                {product.currency === 'USD' && (
+                  <span className="currency">$</span>
+                )}
+                {product.currency === 'EUR' && (
+                  <span className="currency">€</span>
+                )}
+                <span className="amount">
+                  {Math.floor(parseFloat(product.price))}
+                </span>
+                <span className="cents">
+                  {parseFloat(product.price).toFixed(2).split('.')[1]}
+                </span>
+                {/* Show original price crossed if discount exists */}
+              </div>
+            </div>
           </div>
           <div className="container-deal-actions">
             <div className="container-appview-buttons">

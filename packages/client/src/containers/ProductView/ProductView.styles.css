@@ -4,7 +4,8 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  /* gap: 2.5rem; */
+  gap: 2rem;
   align-items: start;
 }
 .container-bookmark {
@@ -337,16 +338,38 @@ span.underline:hover {
 .currency {
   font-size: 1.5rem;
   position: relative;
-  top: -0.3em;
+  top: 0.2em;
   margin-right: 2px;
 }
 
 .cents {
   font-size: 1.5rem;
   position: relative;
-  top: -0.3em;
+  top: 0.2em;
+}
+.original-price {
+  /* font-size: 1.5rem;
+  margin-left: 8px; */
+  color: #888;
+  text-decoration: line-through;
 }
 
+/* .price-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+} */
+
+.discount {
+  color: #e53935;
+  font-weight: 600;
+}
+
+.from-discount-group {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
 .product-description {
   text-align: justify;
 }
