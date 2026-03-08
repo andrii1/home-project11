@@ -932,8 +932,6 @@ export const Products = () => {
     filterConfig,
   });
 
-  console.log('products', products);
-
   return (
     <main>
       <Helmet>
@@ -1225,6 +1223,8 @@ export const Products = () => {
                     setModalTitle('Sign up to add bookmarks');
                   }}
                   cardUrl={`/products/${product.slug}`}
+                  rating={product.rating}
+                  reviews={product.reviews}
                 />
               );
             })}

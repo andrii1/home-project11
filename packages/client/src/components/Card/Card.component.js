@@ -11,7 +11,7 @@ import {
   faHeart as faHeartSolid,
 } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
-// import appImage from '../../../public/assets/images/small-screenshot.png';
+import Rating from '../Rating/Rating.component';
 import { useUserContext } from '../../userContext';
 
 import './Card.styles.css';
@@ -41,6 +41,8 @@ export const Card = ({
   addFavorite,
   deleteBookmark,
   bookmarkOnClick,
+  rating,
+  reviews,
 }) => {
   const { user } = useUserContext();
   if (smallCard) {
@@ -72,7 +74,7 @@ export const Card = ({
   }
 
   return (
-    <div className={listCard ? 'card-list' : 'card-category'}>
+    <Link to={cardUrl} className={listCard ? 'card-list' : 'card-category'}>
       <Link to={cardUrl} className={`card-image ${listCard ? 'list' : ''}`}>
         <img
           className={`${listCard ? 'img-app-icon-list' : 'img-app-icon'} ${
@@ -86,9 +88,7 @@ export const Card = ({
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
           <div className="card-title">
-            <Link to={cardUrl}>
-              <h2>{title.split(' ').slice(0, 8).join(' ')}</h2>
-            </Link>
+            <h2>{title.split(' ').slice(0, 8).join(' ')}</h2>
           </div>
           {/* <Badge label={appTitle} size="small" /> */}
         </div>
@@ -103,20 +103,25 @@ export const Card = ({
               .join(' ')}...`}
           </div>
         )}
-
+        <Rating rating={rating} reviews={reviews} />
         <div>
           <p className="price-card">
-            {currency === 'USD' && <span>$</span>}
-            {currency === 'EUR' && <span>€</span>}
-            <span className="amount">{price}</span>
+            {/* <span>{`From ${currency === 'USD' && '$'}${
+              currency === 'EUR' && '€'
+            } ${price} `}</span> */}
+            <span className="price-from">From </span>
+
+            <span className="amount">
+              {currency === 'USD' && '$'}
+              {currency === 'EUR' && '€'}
+              {price}
+            </span>
           </p>
         </div>
-        {!relatedItemsCard && (
+
+        {/* {!relatedItemsCard && (
           <div className="topics-bookmark">
             <div className="container-topic-app">
-              {/* <Link target="_blank" to={`/deals/app/${appId}`}>
-              <Button secondary label={appTitle} size="small" />
-            </Link> */}
               {!relatedItemsCard && (
                 <Link to={`/apps/categories/${topicId}`}>
                   <Button secondary label={topic} size="small" />
@@ -153,7 +158,7 @@ export const Card = ({
               </button>
             )}
           </div>
-        )}
+        )} */}
         {/* <div>
           <Link to={urlAffiliate} target="_blank">
             <Button
@@ -168,7 +173,7 @@ export const Card = ({
           </Link>
         </div> */}
       </div>
-    </div>
+    </Link>
   );
 };
 
@@ -197,6 +202,8 @@ Card.propTypes = {
   price: PropTypes.string,
   currency: PropTypes.string,
   urlAffiliate: PropTypes.string,
+  rating: PropTypes.number.isRequired,
+  reviews: PropTypes.number,
 };
 
 Card.defaultProps = {
@@ -224,4 +231,5 @@ Card.defaultProps = {
   price: null,
   currency: null,
   urlAffiliate: null,
+  reviews: null,
 };
