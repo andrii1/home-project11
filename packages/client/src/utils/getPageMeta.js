@@ -55,9 +55,11 @@ export const getPageMeta = ({ filterConfig }) => {
     const capitalizedLong = capitalizeFirstWord(allTitles.join(', '));
 
     return {
-      pageMetaTitle: `${capitalizedLong} activities - Catch Daily Deals`,
-      pageMetaDescription: `${capitalizedLong} activities - deals, reviews, promos.`,
-      pageHeaderTitle: `${capitalizedShort} activities`,
+      pageMetaTitle: `${allTitles.join(', ')} activities - Catch Daily Deals`,
+      pageMetaDescription: `${allTitles.join(
+        ', ',
+      )} activities - deals, reviews, promos.`,
+      pageHeaderTitle: `${shortTitle} activities`,
     };
   }
 
