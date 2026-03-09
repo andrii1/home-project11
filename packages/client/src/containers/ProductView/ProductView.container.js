@@ -680,12 +680,12 @@ export const ProductView = () => {
   return (
     <>
       <Helmet>
-        <title>{`${product?.title} - Catch Daily Deals`}</title>
+        <title>{`${product?.title} - Book Travel Activities`}</title>
         <meta
           name="description"
           content={
             product.meta_description ||
-            `${product?.title} review, deals, discounts.`
+            `${product?.title} - reviews, deals, discounts.`
           }
         />
       </Helmet>
@@ -1173,27 +1173,62 @@ export const ProductView = () => {
           {/* <div className="container-details container-badges">
             <h2 className="no-margin">Reviews</h2>
           </div> */}
-
+          <div className="container-details container-badges">
+            <h2 className="no-margin">Location</h2>
+            <div className="container-tags">
+              <div className="badges">
+                <p>Country: </p>
+                <div>
+                  <Link to={`/products/countries/${product.countrySlug}`}>
+                    <Button
+                      secondary
+                      label={product.countryTitle?.toLowerCase()}
+                      size="small"
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="container-tags">
+              <div className="badges">
+                <p>Region/Area: </p>
+                <div>
+                  <Link to={`/products/areas/${product.areaSlug}`}>
+                    <Button
+                      secondary
+                      label={product.areaTitle?.toLowerCase()}
+                      size="small"
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="container-tags">
+              <div className="badges">
+                <p>City: </p>
+                <div>
+                  <Link to={`/products/cities/${product.citySlug}`}>
+                    <Button
+                      secondary
+                      label={product.cityTitle?.toLowerCase()}
+                      size="small"
+                    />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="container-details container-badges">
             <h2 className="no-margin">Category & tags</h2>
             <div className="container-tags">
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Link
-                    to={`/products/categories/${product.categorySlug}`}
-                    target="_blank"
-                  >
+                  <Link to={`/products/categories/${product.categorySlug}`}>
                     <Button
                       secondary
                       label={product.categoryTitle?.toLowerCase()}
                       size="small"
-                      icon={
-                        <FontAwesomeIcon
-                          icon={faArrowUpRightFromSquare}
-                          size="sm"
-                        />
-                      }
                     />
                   </Link>
                 </div>

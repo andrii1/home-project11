@@ -55,7 +55,9 @@ export const getPageMeta = ({ filterConfig }) => {
     const capitalizedLong = capitalizeFirstWord(allTitles.join(', '));
 
     return {
-      pageMetaTitle: `${allTitles.join(', ')} activities - Catch Daily Deals`,
+      pageMetaTitle: `${allTitles.join(
+        ', ',
+      )} activities - Book Travel Activities`,
       pageMetaDescription: `${allTitles.join(
         ', ',
       )} activities - deals, reviews, promos.`,
@@ -64,7 +66,7 @@ export const getPageMeta = ({ filterConfig }) => {
   }
 
   return {
-    pageMetaTitle: 'Catch Daily Deals - find best activities',
+    pageMetaTitle: 'Book Travel Activities - find best activities',
     pageMetaDescription: 'Reviews, deals, promos.',
     pageHeaderTitle: 'Find best activities',
   };

@@ -386,8 +386,17 @@ const getProductById = async (id) => {
         'products.*',
         'categories.title as categoryTitle',
         'categories.slug as categorySlug',
+        'cities.title as cityTitle',
+        'cities.slug as citySlug',
+        'areas.title as areaTitle',
+        'areas.slug as areaSlug',
+        'countries.title as countryTitle',
+        'countries.slug as countrySlug',
       )
       .join('categories', 'products.category_id', '=', 'categories.id')
+      .leftJoin('cities', 'products.city_id', 'cities.id')
+      .leftJoin('areas', 'cities.area_id', 'areas.id')
+      .leftJoin('countries', 'cities.country_id', 'countries.id')
       .where({ 'products.slug': id });
     if (product.length === 0) {
       throw new HttpError(`incorrect entry with the id of ${id}`, 404);
