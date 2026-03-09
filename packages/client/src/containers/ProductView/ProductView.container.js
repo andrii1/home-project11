@@ -105,6 +105,10 @@ export const ProductView = () => {
   //   {},
   // );
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [similarProductsCountry, setSimilarProductsCountry] = useState([]);
+  const [similarProductsArea, setSimilarProductsArea] = useState([]);
+  const [similarProductsCity, setSimilarProductsCity] = useState([]);
+
   const [similarDealsFromProduct, setSimilarDealsFromProduct] = useState([]);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState(null);
@@ -289,18 +293,70 @@ export const ProductView = () => {
     async function fetchSimilarProducts() {
       setLoading(true);
       try {
-        const response = await fetch(`${apiURL()}/products`);
+        const response = await fetch(
+          `${apiURL()}/products?page=0&column=rating&direction=desc&categories=${
+            product.categorySlug
+          }`,
+        );
         const data = await response.json();
-        const similarProductsArray = data
-          .filter((item) => item.category_id === product.category_id)
-          .filter((item) => item.id !== product.id)
-          .slice(0, 10);
-        setSimilarProducts(similarProductsArray);
 
-        // const similarDealsFromProductArray = productsResponse
-        //   .filter((item) => item.product_id === product.product_id)
-        //   .filter((item) => item.id !== product.id);
-        // setSimilarDealsFromProduct(similarDealsFromProductArray);
+        const filteredData = data.data.filter((item) => item.id !== product.id);
+
+        setSimilarProducts(filteredData);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+      setLoading(false);
+    }
+
+    async function fetchSimilarProductsCountry() {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${apiURL()}/products?page=0&column=rating&direction=desc&countries=${
+            product.countrySlug
+          }`,
+        );
+        const data = await response.json();
+        const filteredData = data.data.filter((item) => item.id !== product.id);
+
+        setSimilarProductsCountry(filteredData);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+      setLoading(false);
+    }
+
+    async function fetchSimilarProductsArea() {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${apiURL()}/products?page=0&column=rating&direction=desc&areas=${
+            product.areaSlug
+          }`,
+        );
+        const data = await response.json();
+        const filteredData = data.data.filter((item) => item.id !== product.id);
+
+        setSimilarProductsArea(filteredData);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+      setLoading(false);
+    }
+
+    async function fetchSimilarProductsCity() {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${apiURL()}/products?page=0&column=rating&direction=desc&cities=${
+            product.citySlug
+          }`,
+        );
+        const data = await response.json();
+        const filteredData = data.data.filter((item) => item.id !== product.id);
+
+        setSimilarProductsCity(filteredData);
       } catch (e) {
         setError({ message: e.message || 'Failed to fetch data' });
       }
@@ -308,7 +364,16 @@ export const ProductView = () => {
     }
 
     fetchSimilarProducts();
-  }, [product.id, product.category_id]);
+    fetchSimilarProductsCountry();
+    fetchSimilarProductsArea();
+    fetchSimilarProductsCity();
+  }, [
+    product.id,
+    product.categorySlug,
+    product.countrySlug,
+    product.citySlug,
+    product.areaSlug,
+  ]);
 
   const fetchCommentsByProductId = useCallback(async (productId) => {
     const response = await fetch(`${apiURL()}/comments?productId=${productId}`);
@@ -407,6 +472,75 @@ export const ProductView = () => {
   }, [product?.description, product?.descriptionChatGpt, product?.title]);
 
   const cardItems = similarProducts.map((item) => {
+    // const relatedTopics = topics
+    //   .filter((topic) => topic.categoryId === category.id)
+    //   .map((item) => item.id);
+    return (
+      <Card
+        id={item.id}
+        cardUrl={`/products/${item.slug}`}
+        title={item.title}
+        price={item.price}
+        currency={item.currency}
+        urlAffiliate={item.url_affiliate}
+        description={item.description}
+        url={item.url}
+        urlImage={item.url_image || globe}
+        topic={item.categoryTitle}
+        productTitle={item.productTitle}
+        rating={item.rating}
+        reviews={item.reviews}
+      />
+    );
+  });
+
+  const cardItemsCountry = similarProductsCountry.map((item) => {
+    // const relatedTopics = topics
+    //   .filter((topic) => topic.categoryId === category.id)
+    //   .map((item) => item.id);
+    return (
+      <Card
+        id={item.id}
+        cardUrl={`/products/${item.slug}`}
+        title={item.title}
+        price={item.price}
+        currency={item.currency}
+        urlAffiliate={item.url_affiliate}
+        description={item.description}
+        url={item.url}
+        urlImage={item.url_image || globe}
+        topic={item.categoryTitle}
+        productTitle={item.productTitle}
+        rating={item.rating}
+        reviews={item.reviews}
+      />
+    );
+  });
+
+  const cardItemsArea = similarProductsArea.map((item) => {
+    // const relatedTopics = topics
+    //   .filter((topic) => topic.categoryId === category.id)
+    //   .map((item) => item.id);
+    return (
+      <Card
+        id={item.id}
+        cardUrl={`/products/${item.slug}`}
+        title={item.title}
+        price={item.price}
+        currency={item.currency}
+        urlAffiliate={item.url_affiliate}
+        description={item.description}
+        url={item.url}
+        urlImage={item.url_image || globe}
+        topic={item.categoryTitle}
+        productTitle={item.productTitle}
+        rating={item.rating}
+        reviews={item.reviews}
+      />
+    );
+  });
+
+  const cardItemsCity = similarProductsCity.map((item) => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
     //   .map((item) => item.id);
@@ -1407,8 +1541,28 @@ export const ProductView = () => {
           )} */}
           {similarProducts.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Similar products in {product.categoryTitle}</h2>
+              <h2>🔎 Similar activities in {product.categoryTitle}</h2>
               <div className="container-cards small-cards">{cardItems}</div>
+            </div>
+          )}
+          {similarProductsCity.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Activities in {product.cityTitle}</h2>
+              <div className="container-cards small-cards">{cardItemsCity}</div>
+            </div>
+          )}
+          {similarProductsArea.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Activities in {product.areaTitle}</h2>
+              <div className="container-cards small-cards">{cardItemsArea}</div>
+            </div>
+          )}
+          {similarProductsCountry.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Activities in {product.countryTitle}</h2>
+              <div className="container-cards small-cards">
+                {cardItemsCountry}
+              </div>
             </div>
           )}
           {/* {searches.length > 0 && (
