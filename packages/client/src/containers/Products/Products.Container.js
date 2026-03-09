@@ -58,12 +58,18 @@ export const Products = () => {
   const [userTypes, setUserTypes] = useState([]);
   const [occasions, setOccasions] = useState([]);
   const [useCases, setUseCases] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [areas, setAreas] = useState([]);
+  const [cities, setCities] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredTags, setFilteredTags] = useState([]);
   const [filteredHighlights, setFilteredHighlights] = useState([]);
   const [filteredUserTypes, setFilteredUserTypes] = useState([]);
   const [filteredOccasions, setFilteredOccasions] = useState([]);
   const [filteredUseCases, setFilteredUseCases] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [filteredAreas, setFilteredAreas] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
   const [filteredPricing, setFilteredPricing] = useState([]);
   const [filteredPlatforms, setFilteredPlatforms] = useState([]);
   const [filteredSocials, setFilteredSocials] = useState([]);
@@ -120,6 +126,9 @@ export const Products = () => {
     setFilteredCategories(filters.categories || []);
     setFilteredTags(filters.tags || []);
     setFilteredHighlights(filters.highlights || []);
+    setFilteredCountries(filters.countries || []);
+    setFilteredAreas(filters.areas || []);
+    setFilteredCities(filters.cities || []);
     setFilteredUserTypes(filters.userTypes || []);
     setFilteredOccasions(filters.occasions || []);
     setFilteredUseCases(filters.useCases || []);
@@ -145,6 +154,21 @@ export const Products = () => {
     // Categories
     if (filteredCategories.length > 0) {
       params.append('categories', filteredCategories.join(','));
+    }
+
+    // Countries
+    if (filteredCountries.length > 0) {
+      params.append('countries', filteredCountries.join(','));
+    }
+
+    // Areas
+    if (filteredAreas.length > 0) {
+      params.append('areas', filteredAreas.join(','));
+    }
+
+    // Cities
+    if (filteredCities.length > 0) {
+      params.append('cities', filteredCities.join(','));
     }
 
     // Tags
@@ -235,6 +259,9 @@ export const Products = () => {
     searchParams,
     filteredSearch,
     filtersReady,
+    filteredCountries,
+    filteredAreas,
+    filteredCities,
   ]);
 
   const fetchApps = async () => {
@@ -251,6 +278,21 @@ export const Products = () => {
     // Categories
     if (filteredCategories.length > 0) {
       params.append('categories', filteredCategories.join(','));
+    }
+
+    // Countries
+    if (filteredCountries.length > 0) {
+      params.append('countries', filteredCountries.join(','));
+    }
+
+    // Areas
+    if (filteredAreas.length > 0) {
+      params.append('areas', filteredAreas.join(','));
+    }
+
+    // Cities
+    if (filteredCities.length > 0) {
+      params.append('cities', filteredCities.join(','));
     }
 
     // Tags
@@ -394,6 +436,27 @@ export const Products = () => {
       setCategories(sorted);
     }
 
+    async function fetchCountries() {
+      const response = await fetch(`${apiURL()}/countries/`);
+      const data = await response.json();
+      const sorted = data.sort((a, b) => a.title.localeCompare(b.title));
+      setCountries(sorted);
+    }
+
+    async function fetchAreas() {
+      const response = await fetch(`${apiURL()}/areas/`);
+      const data = await response.json();
+      const sorted = data.sort((a, b) => a.title.localeCompare(b.title));
+      setAreas(sorted);
+    }
+
+    async function fetchCities() {
+      const response = await fetch(`${apiURL()}/cities/`);
+      const data = await response.json();
+      const sorted = data.sort((a, b) => a.title.localeCompare(b.title));
+      setCities(sorted);
+    }
+
     async function fetchTags() {
       const response = await fetch(`${apiURL()}/tags/`);
       const data = await response.json();
@@ -430,6 +493,9 @@ export const Products = () => {
     }
 
     fetchCategories();
+    fetchCountries();
+    fetchAreas();
+    fetchCities();
     fetchTags();
     fetchHighlights();
     fetchUserTypes();
@@ -575,6 +641,9 @@ export const Products = () => {
   const clearFiltersHandler = () => {
     // Reset all filter states
     setFilteredCategories([]);
+    setFilteredCountries([]);
+    setFilteredAreas([]);
+    setFilteredCities([]);
     setFilteredTags([]);
     setFilteredHighlights([]);
     setFilteredUserTypes([]);
@@ -836,6 +905,9 @@ export const Products = () => {
 
   const hasActiveFilters =
     filteredCategories.length > 0 ||
+    filteredCountries.length > 0 ||
+    filteredAreas.length > 0 ||
+    filteredCities.length > 0 ||
     filteredTags.length > 0 ||
     filteredHighlights.length > 0 ||
     filteredUserTypes.length > 0 ||
@@ -854,6 +926,27 @@ export const Products = () => {
       values: filteredCategories,
       setter: setFilteredCategories,
       options: categories,
+    },
+    {
+      key: 'countries',
+      label: 'Countries',
+      values: filteredCountries,
+      setter: setFilteredCountries,
+      options: countries,
+    },
+    {
+      key: 'areas',
+      label: 'Areas',
+      values: filteredAreas,
+      setter: setFilteredAreas,
+      options: areas,
+    },
+    {
+      key: 'cities',
+      label: 'Cities',
+      values: filteredCities,
+      setter: setFilteredCities,
+      options: cities,
     },
     {
       key: 'tags',
@@ -952,6 +1045,35 @@ export const Products = () => {
             onClick={filterHandlerAllCategories}
           />
           {categoriesList}
+        </section>
+      )}
+      {activeTab === 'Tags' && (
+        <section className="container-topics-desktop">
+          <Button
+            primary={!filteredTags.length > 0}
+            secondary={filteredTags.length > 0}
+            label="All tags"
+            onClick={filterHandlerAllTags}
+          />
+          {tagsList}
+          <Link to="/tags">
+            <Button tertiary label="See all tags..." />
+          </Link>
+        </section>
+      )}
+
+      {activeTab === 'Tags' && (
+        <section className="container-topics-desktop">
+          <Button
+            primary={!filteredTags.length > 0}
+            secondary={filteredTags.length > 0}
+            label="All tags"
+            onClick={filterHandlerAllTags}
+          />
+          {tagsList}
+          <Link to="/tags">
+            <Button tertiary label="See all tags..." />
+          </Link>
         </section>
       )}
       {activeTab === 'Tags' && (
@@ -1115,6 +1237,42 @@ export const Products = () => {
       >
         <div className="container-details filters">
           <div className="container-form">
+            <div className="selector-group">
+              <h3>Countries</h3>
+              <MultiSelectDropdown
+                options={countries}
+                selected={filteredCountries}
+                onChange={filterHandler}
+                placeholder="Select countries"
+                valueKey="slug"
+                labelKey="title"
+                title="countries"
+              />
+            </div>
+            <div className="selector-group">
+              <h3>Areas</h3>
+              <MultiSelectDropdown
+                options={areas}
+                selected={filteredAreas}
+                onChange={filterHandler}
+                placeholder="Select areas"
+                valueKey="slug"
+                labelKey="title"
+                title="areas"
+              />
+            </div>
+            <div className="selector-group">
+              <h3>Cities</h3>
+              <MultiSelectDropdown
+                options={cities}
+                selected={filteredCities}
+                onChange={filterHandler}
+                placeholder="Select cities"
+                valueKey="slug"
+                labelKey="title"
+                title="cities"
+              />
+            </div>
             <div className="selector-group">
               <h3>Highlights</h3>
               <MultiSelectDropdown

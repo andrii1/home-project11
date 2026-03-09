@@ -27,6 +27,9 @@ const productsController = require('../controllers/products.controller');
 router.get('/', (req, res, next) => {
   if (
     req.query.categories ||
+    req.query.countries ||
+    req.query.areas ||
+    req.query.cities ||
     req.query.pricing ||
     req.query.platforms ||
     req.query.socials ||
@@ -47,6 +50,9 @@ router.get('/', (req, res, next) => {
         column: req.query.column,
         direction: req.query.direction,
         categories: req.query.categories,
+        countries: req.query.countries,
+        areas: req.query.areas,
+        cities: req.query.cities,
         pricing: req.query.pricing,
         platforms: req.query.platforms,
         socials: req.query.socials,

@@ -286,7 +286,9 @@ form.home {
 
 .container-form {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  /* justify-content: space-between; */
   margin-bottom: 1rem;
 }
 
@@ -356,6 +358,10 @@ form.home {
   .container-topics-section.show {
     margin: 2rem auto;
     width: 90%;
+  }
+
+  .multi-select-dropdown {
+    width: 100% !important;
   }
 }
 

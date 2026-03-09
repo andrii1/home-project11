@@ -201,6 +201,9 @@ const getProductsBy = async (params) => {
     column = 'id',
     direction = 'asc',
     categories,
+    cities,
+    areas,
+    countries,
     pricing,
     platforms,
     socials,
@@ -275,17 +278,35 @@ const getProductsBy = async (params) => {
           'categories.slug as categorySlug',
           'platforms.title as platformTitle',
           'platforms.slug as platformSlug',
-          knex.raw(`COUNT(DISTINCT favorites.id) as favoritesCount`),
-          knex.raw(`COUNT(DISTINCT ratings.id) as ratingsCount`),
+          'cities.title as cityTitle',
+          'cities.slug as citySlug',
+          'areas.title as areaTitle',
+          'areas.slug as areaSlug',
+          'countries.title as countryTitle',
+          'countries.slug as countrySlug',
+          knex.raw(`(
+        SELECT COUNT(*)
+        FROM favorites
+        WHERE favorites.product_id = products.id
+      ) as favoritesCount`),
+
+          knex.raw(`(
+        SELECT COUNT(*)
+        FROM ratings
+        WHERE ratings.product_id = products.id
+      ) as ratingsCount`),
         )
         .leftJoin('categories', 'products.category_id', 'categories.id')
         .leftJoin('platforms', 'products.platform_id', 'platforms.id')
-        .leftJoin('favorites', 'products.id', 'favorites.product_id')
-        .leftJoin('ratings', 'products.id', 'ratings.product_id')
-        .groupBy('products.id', 'categories.title', 'categories.slug')
+        .leftJoin('cities', 'products.city_id', '=', 'cities.id')
+        .leftJoin('areas', 'cities.area_id', '=', 'areas.id')
+        .leftJoin('countries', 'areas.country_id', '=', 'countries.id')
         .modify((qb) => {
           // --- Simple filters ---
           if (categories) qb.whereIn('categories.slug', categories.split(','));
+          if (cities) qb.whereIn('cities.slug', cities.split(','));
+          if (areas) qb.whereIn('areas.slug', areas.split(','));
+          if (countries) qb.whereIn('countries.slug', countries.split(','));
           applyMappedFilter(qb, pricing, pricingFiltersMap);
           applyMappedFilter(qb, platforms, platformsFiltersMap);
           applyMappedFilter(qb, socials, socialMediaFiltersMap);
@@ -482,8 +503,8 @@ const createProductNode = async (token, body) => {
           content: `Write a short, engaging meta description SEO for product "${
             body.title
           }"${
-            body.url ? ` with link ${body.url}` : ''
-          }. Maximum 150 characters.`,
+            body.url ? ` ,here is a link ${body.url} for reference only` : ''
+          }. Do not include link in description. Maximum 150 characters.`,
         },
       ],
       temperature: 0.7,

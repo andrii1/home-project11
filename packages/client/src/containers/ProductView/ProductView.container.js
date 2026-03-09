@@ -684,9 +684,8 @@ export const ProductView = () => {
         <meta
           name="description"
           content={
-            keywords.length > 0
-              ? keywords.map((keyword) => keyword.title).join(', ')
-              : `${product?.title} review, ${product?.title} how to use, ${product?.title} tutorial, ${product?.title} overview, ${product?.title} deals.`
+            product.meta_description ||
+            `${product?.title} review, deals, discounts.`
           }
         />
       </Helmet>
