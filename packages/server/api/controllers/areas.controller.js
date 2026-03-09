@@ -29,7 +29,10 @@ async function slugExists(slug) {
 
 const getAreas = async () => {
   try {
-    const areas = await knex('areas').select('areas.*').orderBy('areas.title');
+    const areas = await knex('areas')
+      .select('areas.*', 'countries.slug as countrySlug')
+      .leftJoin('countries', 'areas.country_id', 'countries.id')
+      .orderBy('areas.title');
     return areas;
   } catch (error) {
     return error.message;
