@@ -765,7 +765,13 @@ export const Products = () => {
       column = 'price';
       direction = 'desc';
     } else if (sortOrder === 'Highest rated') {
-      column = 'highestRated';
+      column = 'rating';
+      direction = 'desc';
+    } else if (sortOrder === 'Most reviews') {
+      column = 'reviews';
+      direction = 'desc';
+    } else if (sortOrder === 'Highest discount') {
+      column = 'discount_percentage';
       direction = 'desc';
     } else if (sortOrder === 'Most bookmarked') {
       column = 'mostBookmarked';
@@ -780,12 +786,14 @@ export const Products = () => {
 
   const sortOptions = [
     'Recent',
-    'A-Z',
-    'Z-A',
+    'Highest rated',
     'Price (low to high)',
     'Price (high to low)',
-    'Highest rated',
+    'Most reviews',
+    'Highest discount',
     'Most bookmarked',
+    'A-Z',
+    'Z-A',
   ];
 
   const pricingList = PRICING_OPTIONS.map((item) => (

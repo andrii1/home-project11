@@ -53,11 +53,23 @@ const createCity = async (token, body) => {
     }
 
     // Optional: check for existing city
-    const existing = await knex('cities')
+    // const existing = await knex('cities')
+    //   .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+    //   .andWhere('area_id', body.area_id)
+    //   .andWhere('country_id', body.country_id)
+    //   .first();
+
+    const query = knex('cities')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
-      .andWhere('area_id', body.area_id)
-      .andWhere('country_id', body.country_id)
-      .first();
+      .andWhere('country_id', body.country_id);
+
+    if (body.area_id) {
+      query.andWhere('area_id', body.area_id);
+    } else {
+      query.whereNull('area_id');
+    }
+
+    const existing = await query.first();
 
     if (existing) {
       return {

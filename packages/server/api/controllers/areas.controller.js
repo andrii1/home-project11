@@ -47,6 +47,14 @@ const createArea = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
+    if (!body.title) {
+      return {
+        successful: false,
+        areaId: null,
+        message: 'Area title missing',
+      };
+    }
+
     // Optional: check for existing area
     const existing = await knex('areas')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
