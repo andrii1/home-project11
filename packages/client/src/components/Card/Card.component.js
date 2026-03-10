@@ -106,7 +106,7 @@ export const Card = ({
               .join(' ')}...`}
           </div>
         )}
-        <Rating rating={rating} reviews={reviews} />
+        {rating && <Rating rating={rating} reviews={reviews} />}
         <div>
           <p className="price-card">
             {/* <span>{`From ${currency === 'USD' && '$'}${

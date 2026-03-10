@@ -1070,34 +1070,6 @@ export const Products = () => {
         </section>
       )}
 
-      {activeTab === 'Tags' && (
-        <section className="container-topics-desktop">
-          <Button
-            primary={!filteredTags.length > 0}
-            secondary={filteredTags.length > 0}
-            label="All tags"
-            onClick={filterHandlerAllTags}
-          />
-          {tagsList}
-          <Link to="/tags">
-            <Button tertiary label="See all tags..." />
-          </Link>
-        </section>
-      )}
-      {activeTab === 'Tags' && (
-        <section className="container-topics-desktop">
-          <Button
-            primary={!filteredTags.length > 0}
-            secondary={filteredTags.length > 0}
-            label="All tags"
-            onClick={filterHandlerAllTags}
-          />
-          {tagsList}
-          <Link to="/tags">
-            <Button tertiary label="See all tags..." />
-          </Link>
-        </section>
-      )}
       {/* {activeTab === 'Searches' && (
         <section className="container-topics-desktop">
           <Link to="/">

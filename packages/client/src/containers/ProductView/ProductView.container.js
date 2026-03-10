@@ -1323,20 +1323,22 @@ export const ProductView = () => {
                 </div>
               </div>
             </div>
-            <div className="container-tags">
-              <div className="badges">
-                <p>Region/Area: </p>
-                <div>
-                  <Link to={`/products/areas/${product.areaSlug}`}>
-                    <Button
-                      secondary
-                      label={product.areaTitle?.toLowerCase()}
-                      size="small"
-                    />
-                  </Link>
+            {product.areaSlug && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Region/Area: </p>
+                  <div>
+                    <Link to={`/products/areas/${product.areaSlug}`}>
+                      <Button
+                        secondary
+                        label={product.areaTitle?.toLowerCase()}
+                        size="small"
+                      />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="container-tags">
               <div className="badges">
                 <p>City: </p>
