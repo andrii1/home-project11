@@ -845,7 +845,9 @@ export const ProductView = () => {
 
           {/* <ImageGallery items={images} /> */}
           <div className="rating-price-group">
-            <Rating rating={product.rating} reviews={product.reviews} />
+            {product.rating && (
+              <Rating rating={product.rating} reviews={product.reviews} />
+            )}
             <div className="price-group">
               {/* Discount */}
               <div className="from-discount-group">
