@@ -298,9 +298,9 @@ const getProductsBy = async (params) => {
         )
         .leftJoin('categories', 'products.category_id', 'categories.id')
         .leftJoin('platforms', 'products.platform_id', 'platforms.id')
-        .leftJoin('cities', 'products.city_id', '=', 'cities.id')
-        .leftJoin('areas', 'cities.area_id', '=', 'areas.id')
-        .leftJoin('countries', 'areas.country_id', '=', 'countries.id')
+        .leftJoin('cities', 'products.city_id', 'cities.id')
+        .leftJoin('areas', 'cities.area_id', 'areas.id')
+        .leftJoin('countries', 'cities.country_id', 'countries.id')
         .modify((qb) => {
           // --- Simple filters ---
           if (categories) qb.whereIn('categories.slug', categories.split(','));
