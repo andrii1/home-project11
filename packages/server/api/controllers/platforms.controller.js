@@ -1,6 +1,8 @@
 /* TODO: This is an example controller to illustrate a server side controller.
 Can be deleted as soon as the first real controller is added. */
+
 require('dotenv').config();
+
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 const generateSlug = require('../lib/utils/generateSlug');

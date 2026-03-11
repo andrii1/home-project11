@@ -15,6 +15,39 @@ const products = [
     To: '2026-04-09',
     'Price from': '€25.90',
   },
+  {
+    'Tour ID': '864018',
+    'Tour Title':
+      'From Tirana/Golem/Durres: Blue Eye, Ksamil, Saranda Day Tour',
+    Category: 'Adventure Tours',
+    City: 'Durres',
+    'Area/State': 'Durres District',
+    Country: 'Albania, Republic of',
+    'AVG Rating': '5.0',
+    Reviews: '23',
+    'Activity URL':
+      'https://www.getyourguide.com/activity/-t864018?partner_id=FEYUTMR',
+    'Save up to': '40%',
+    From: '2026-03-10',
+    To: '2026-04-09',
+    'Price from': '€39.00',
+  },
+  {
+    'Tour ID': '858978',
+    'Tour Title': 'Mumbai: Private Sightseeing Tour with Top Highlights',
+    Category: 'Bus Tours',
+    City: 'Mumbai',
+    'Area/State': 'Maharashtra',
+    Country: 'India',
+    'AVG Rating': '5.0',
+    Reviews: '46',
+    'Activity URL':
+      'https://www.getyourguide.com/activity/-t858978?partner_id=FEYUTMR',
+    'Save up to': '10%',
+    From: '2026-03-10',
+    To: '2026-03-25',
+    'Price from': '€20.93',
+  },
 ];
 
 const products1 = [
