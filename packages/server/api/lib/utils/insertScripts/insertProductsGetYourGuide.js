@@ -4,7 +4,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
 const parseNumber = require('../parseNumber.js');
-const products = require('./data/getYourGuideProducts.js');
+const productsDeals = require('./data/getYourGuideProducts.js');
+const products2 = require('./data/gygBestsellers.js');
+const products3 = require('./data/gygNew.js');
+const products4 = require('./data/gygTopPerforming.js');
+
+const products = [...products2, ...products3, ...products4];
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_ACTIVITIES_PROD;

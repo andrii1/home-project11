@@ -1504,7 +1504,7 @@ export const ProductView = () => {
               className="button-copy"
               onClick={() =>
                 copyToClipboard(
-                  `https://www.trytopproducts.com/products/${product.slug}`,
+                  `https://www.booktravelactivities.com/products/${product.slug}`,
                 )
               }
             />
@@ -1512,21 +1512,21 @@ export const ProductView = () => {
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
             <TwitterShareButton
-              url={`https://www.trytopproducts.com/products/${product.slug}`}
+              url={`https://www.booktravelactivities.com/products/${product.slug}`}
               title={`Check out this product: '${product.title}'`}
               hashtags={['Products']}
             >
               <FontAwesomeIcon className="share-icon" icon={faTwitter} />
             </TwitterShareButton>
             <LinkedinShareButton
-              url={`https://www.trytopproducts.com/products/${product.slug}`}
+              url={`https://www.booktravelactivities.com/products/${product.slug}`}
             >
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
               subject="Check out this product!"
               body={`This product is great: '${product.title}'`}
-              url={`https://www.trytopproducts.com/products/${product.slug}`}
+              url={`https://www.booktravelactivities.com/products/${product.slug}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
