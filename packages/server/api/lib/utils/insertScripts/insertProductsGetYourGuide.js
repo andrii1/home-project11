@@ -195,7 +195,7 @@ const insertProducts = async () => {
       const platform = 'GetYourGuide';
       const platformUrl = 'https://www.getyourguide.com/';
 
-      const category = product.Category;
+      const category = product['Category Name'];
       const country = product.Country?.trim();
       const area = product['Area/State']?.trim() || null;
       const city = product.City?.trim();
