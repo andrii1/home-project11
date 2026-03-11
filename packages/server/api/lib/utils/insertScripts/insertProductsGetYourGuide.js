@@ -200,8 +200,12 @@ const insertProducts = async () => {
       const area = product['Area/State']?.trim() || null;
       const city = product.City?.trim();
       const cleanUrl = product['Activity URL'].split('?')[0];
-      const discount = Number(product['Save up to'].replace(/\D/g, ''));
-      const price = Number(product['Price from'].replace(/[^0-9.]/g, ''));
+      const discount = product['Save up to']
+        ? Number(product['Save up to'].replace(/\D/g, ''))
+        : null;
+      const price = product['Price from']
+        ? Number(product['Price from'].replace(/[^0-9.]/g, ''))
+        : null;
       const reviews = parseNumber(product.Reviews);
 
       const newPlatform = await insertPlatform(platform, platformUrl);
