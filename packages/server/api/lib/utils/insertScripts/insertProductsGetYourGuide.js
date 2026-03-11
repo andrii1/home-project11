@@ -3,143 +3,63 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
-const parseNumber = require('../parseNumber');
+const parseNumber = require('../parseNumber.js');
+const { products } = require('./data/getYourGuideProducts.js');
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;
 const API_PATH = process.env.API_PATH_ACTIVITIES_LOCAL;
 
-const products = [
-  {
-    'Tour ID': '913346',
-    'Tour Title': 'Atlanta: Ponce City Market Guided Walking Tour',
-    Category: 'Walking Tours',
-    City: 'Atlanta',
-    'Area/State': 'Fulton County',
-    Country: 'United States',
-    'AVG Rating': '5.0',
-    Reviews: '1',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t913346?partner_id=FEYUTMR',
-    'Save up to': '15%',
-    From: '2026-03-05',
-    To: '2026-03-31',
-    'Price from': '€21.96',
-  },
-  {
-    'Tour ID': '561933',
-    'Tour Title': 'Osaka: Kuchu Teien Observatory Ticket with Private Transfer',
-    Category: 'Transfers',
-    City: 'Osaka',
-    'Area/State': 'Osaka Prefecture',
-    Country: 'Japan',
-    'AVG Rating': null,
-    Reviews: null,
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t561933?partner_id=FEYUTMR',
-    'Save up to': '5%',
-    From: '2026-03-05',
-    To: '2026-03-22',
-    'Price from': '€55.37',
-  },
-  {
-    'Tour ID': '1133955',
-    'Tour Title': 'Shanghai Pub Crawl (Guided Bar Hopping) with Shots Included',
-    Category: 'Walking Tours',
-    City: 'Shanghai',
-    'Area/State': 'East China',
-    Country: 'China',
-    'AVG Rating': '5.0',
-    Reviews: '56',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t1133955?partner_id=FEYUTMR',
-    'Save up to': '5%',
-    From: '2026-03-05',
-    To: '2026-04-04',
-    'Price from': '€21.44',
-  },
-  {
-    'Tour ID': '1110029',
-    'Tour Title': 'Phuket: Highlights Tour 30-Min ATV & Ethical Elephant Care',
-    Category: 'Bus Tours',
-    City: 'Khao Lak',
-    'Area/State': 'Phang Nga Province',
-    Country: 'Thailand',
-    'AVG Rating': null,
-    Reviews: null,
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t1110029?partner_id=FEYUTMR',
-    'Save up to': '10%',
-    From: '2026-03-05',
-    To: '2026-03-15',
-    'Price from': '€90.20',
-  },
-  {
-    'Tour ID': '709628',
-    'Tour Title': 'Bari: Sailing Catamaran Private Cruise',
-    Category: 'Boat Tours',
-    City: 'Bari',
-    'Area/State': 'Apulia',
-    Country: 'Italy',
-    'AVG Rating': null,
-    Reviews: null,
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t709628?partner_id=FEYUTMR',
-    'Save up to': '20%',
-    From: '2026-03-05',
-    To: '2026-04-04',
-    'Price from': '€360.00',
-  },
-  {
-    'Tour ID': '700599',
-    'Tour Title': 'From Skopje:Day Trip to Pristina,Bear Sanctuary&Gadime Cave',
-    Category: 'Day Trips',
-    City: 'Pristina',
-    'Area/State': 'Pristina District',
-    Country: 'Kosovo',
-    'AVG Rating': '5.0',
-    Reviews: '5',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t700599?partner_id=FEYUTMR',
-    'Save up to': '20%',
-    From: '2026-03-05',
-    To: '2026-04-04',
-    'Price from': '€98.40',
-  },
-  {
-    'Tour ID': '419249',
-    'Tour Title': 'Deep Dive into Denver: Small-Group Walking Tour',
-    Category: 'Attraction Tours',
-    City: 'Denver',
-    'Area/State': 'Denver County',
-    Country: 'United States',
-    'AVG Rating': '4.8',
-    Reviews: '119',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t419249?partner_id=FEYUTMR',
-    'Save up to': '10%',
-    From: '2026-03-05',
-    To: '2027-12-31',
-    'Price from': '€30.23',
-  },
-  {
-    'Tour ID': '1130372',
-    'Tour Title':
-      'Guided Walking Tour Amsterdam - Dark History & Ghost Stories',
-    Category: 'Walking Tours',
-    City: 'Amsterdam',
-    'Area/State': 'North Holland',
-    Country: 'Netherlands',
-    'AVG Rating': '4.9',
-    Reviews: '12',
-    'Activity URL':
-      'https://www.getyourguide.com/activity/-t1130372?partner_id=FEYUTMR',
-    'Save up to': '20%',
-    From: '2026-03-05',
-    To: '2026-04-04',
-    'Price from': '€15.96',
-  },
-];
+// const products = [
+//   {
+//     'Tour ID': '913346',
+//     'Tour Title': 'Atlanta: Ponce City Market Guided Walking Tour',
+//     Category: 'Walking Tours',
+//     City: 'Atlanta',
+//     'Area/State': 'Fulton County',
+//     Country: 'United States',
+//     'AVG Rating': '5.0',
+//     Reviews: '1',
+//     'Activity URL':
+//       'https://www.getyourguide.com/activity/-t913346?partner_id=FEYUTMR',
+//     'Save up to': '15%',
+//     From: '2026-03-05',
+//     To: '2026-03-31',
+//     'Price from': '€21.96',
+//   },
+//   {
+//     'Tour ID': '561933',
+//     'Tour Title': 'Osaka: Kuchu Teien Observatory Ticket with Private Transfer',
+//     Category: 'Transfers',
+//     City: 'Osaka',
+//     'Area/State': 'Osaka Prefecture',
+//     Country: 'Japan',
+//     'AVG Rating': null,
+//     Reviews: null,
+//     'Activity URL':
+//       'https://www.getyourguide.com/activity/-t561933?partner_id=FEYUTMR',
+//     'Save up to': '5%',
+//     From: '2026-03-05',
+//     To: '2026-03-22',
+//     'Price from': '€55.37',
+//   },
+//   {
+//     'Tour ID': '1133955',
+//     'Tour Title': 'Shanghai Pub Crawl (Guided Bar Hopping) with Shots Included',
+//     Category: 'Walking Tours',
+//     City: 'Shanghai',
+//     'Area/State': 'East China',
+//     Country: 'China',
+//     'AVG Rating': '5.0',
+//     Reviews: '56',
+//     'Activity URL':
+//       'https://www.getyourguide.com/activity/-t1133955?partner_id=FEYUTMR',
+//     'Save up to': '5%',
+//     From: '2026-03-05',
+//     To: '2026-04-04',
+//     'Price from': '€21.44',
+//   },
+// ];
 
 // fetch helpers
 
