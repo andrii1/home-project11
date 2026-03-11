@@ -15,6 +15,25 @@ const products = [
     To: '2026-04-09',
     'Price from': '€25.90',
   },
+];
+
+const products1 = [
+  {
+    'Tour ID': '478306',
+    'Tour Title': 'From Marrakesh: Sunset Dinner in Agafay at Berber Camp',
+    Category: 'Day Trips',
+    City: 'Marrakesh',
+    'Area/State': 'Marrakesh-Safi',
+    Country: 'Morocco, Kingdom of',
+    'AVG Rating': '4.5',
+    Reviews: '146',
+    'Activity URL':
+      'https://www.getyourguide.com/activity/-t478306?partner_id=FEYUTMR',
+    'Save up to': '29%',
+    From: '2026-03-10',
+    To: '2026-04-09',
+    'Price from': '€25.90',
+  },
   {
     'Tour ID': '864018',
     'Tour Title':
