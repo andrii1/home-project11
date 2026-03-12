@@ -28,6 +28,7 @@ import { useLikes } from '../../utils/hooks/useLikes';
 import { ThumbsUp, ThumbsDown, Globe } from 'lucide-react';
 import Rating from '../../components/Rating/Rating.component';
 import globe from '../../assets/images/globe.svg';
+import { formatDuration } from '../../utils/formatDuration';
 
 import {
   faEnvelope,
@@ -1061,22 +1062,21 @@ export const ProductView = () => {
                 </p>
               </>
             )}
-            {product.description ||
-              (product.description_ai && (
-                <>
-                  <h3>Description</h3>
-                  {product.description && (
-                    <p className="product-description main-description">
-                      <Markdown>{product.description}</Markdown>
-                    </p>
-                  )}
-                  {product.description_ai && (
-                    <p className="product-description main-description">
-                      <Markdown>{product.description_ai}</Markdown>
-                    </p>
-                  )}
-                </>
-              ))}
+            {(product.description || product.description_ai) && (
+              <>
+                <h3>Description</h3>
+                {product.description && (
+                  <p className="product-description main-description">
+                    <Markdown>{product.description}</Markdown>
+                  </p>
+                )}
+                {product.description_ai && (
+                  <p className="product-description main-description">
+                    <Markdown>{product.description_ai}</Markdown>
+                  </p>
+                )}
+              </>
+            )}
             {product.whats_included && (
               <>
                 <h3>What is included</h3>
@@ -1340,6 +1340,29 @@ export const ProductView = () => {
             <h2 className="no-margin">Reviews</h2>
           </div> */}
           <div className="container-details container-badges">
+            <h2 className="no-margin">Additional info</h2>
+            {product.duration && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Duration: </p>
+                  <div>{formatDuration(product.duration)}</div>
+                </div>
+              </div>
+            )}
+            <div className="container-tags">
+              <div className="badges">
+                <p>Wheelchair access: </p>
+                <div>{product.wheelchair_access ? 'Yes' : 'No'}</div>
+              </div>
+            </div>
+            <div className="container-tags">
+              <div className="badges">
+                <p>Smartphone ticket: </p>
+                <div>{product.smartphone_ticket ? 'Yes' : 'No'}</div>
+              </div>
+            </div>
+          </div>
+          <div className="container-details container-badges">
             <h2 className="no-margin">Location</h2>
             {product.address && (
               <div className="container-tags">
@@ -1356,6 +1379,26 @@ export const ProductView = () => {
                   <div>{product.postal_code}</div>
                 </div>
               </div>
+            )}
+            {(product.geolocation_lat || product.geolocation_lng) && (
+              <>
+                {product.geolocation_lat && (
+                  <div className="container-tags">
+                    <div className="badges">
+                      <p>Latitude: </p>
+                      <div>{product.geolocation_lat}</div>
+                    </div>
+                  </div>
+                )}
+                {product.geolocation_lng && (
+                  <div className="container-tags">
+                    <div className="badges">
+                      <p>Longitude: </p>
+                      <div>{product.geolocation_lng}</div>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
             <div className="container-tags">
               <div className="badges">
