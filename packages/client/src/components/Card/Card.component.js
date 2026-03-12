@@ -107,13 +107,14 @@ export const Card = ({
           </div>
         )}
         {rating && <Rating rating={rating} reviews={reviews} />}
-        <div>
-          <p className="price-card">
-            {/* <span>{`From ${currency === 'USD' && '$'}${
+        {price && (
+          <div>
+            <p className="price-card">
+              {/* <span>{`From ${currency === 'USD' && '$'}${
               currency === 'EUR' && '€'
             } ${price} `}</span> */}
-            <span className="price-from">From </span>
-            {/* {discount > 0 && (
+              <span className="price-from">From </span>
+              {/* {discount > 0 && (
               <span className="original-price">
                 {currency === 'USD' && '$ '}
                 {currency === 'EUR' && '€ '}
@@ -121,14 +122,15 @@ export const Card = ({
                 {originalPrice.toFixed(2).split('.')[1]}
               </span>
             )} */}
-            <span className="amount">
-              {currency === 'USD' && '$'}
-              {currency === 'EUR' && '€'}
-              {price}
-            </span>{' '}
-            {discount > 0 && <span className="discount">-{discount}%</span>}
-          </p>
-        </div>
+              <span className="amount">
+                {currency === 'USD' && '$'}
+                {currency === 'EUR' && '€'}
+                {price}
+              </span>{' '}
+              {discount > 0 && <span className="discount">-{discount}%</span>}
+            </p>
+          </div>
+        )}
 
         {/* {!relatedItemsCard && (
           <div className="topics-bookmark">
