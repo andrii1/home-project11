@@ -31,8 +31,6 @@ const getCategories = async () => {
   try {
     const categories = await knex('categories')
       .select('categories.*')
-      .distinct('categories.id')
-      .join('products', 'products.category_id', '=', 'categories.id')
       .orderBy('categories.title');
     return categories;
   } catch (error) {

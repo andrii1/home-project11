@@ -624,22 +624,30 @@ const createProductNode = async (token, body) => {
     const uniqueSlug = await ensureUniqueSlugItems(baseSlug, 'products');
 
     // === Insert product ===
+
     const [productId] = await knex('products').insert({
-      external_id: body.external_id,
-      title: body.title,
+      ...body,
       slug: uniqueSlug,
-      price: body.price,
-      rating: body.rating,
-      reviews: body.reviews,
-      url: body.url,
-      url_affiliate: body.url_affiliate,
-      discount_percentage: body.discount_percentage,
-      category_id: body.category_id,
-      city_id: body.city_id,
-      platform_id: body.platform_id,
       description_ai: description,
       meta_description: metaDescription,
     });
+
+    // const [productId] = await knex('products').insert({
+    //   external_id: body.external_id,
+    //   title: body.title,
+    //   slug: uniqueSlug,
+    //   price: body.price,
+    //   rating: body.rating,
+    //   reviews: body.reviews,
+    //   url: body.url,
+    //   url_affiliate: body.url_affiliate,
+    //   discount_percentage: body.discount_percentage,
+    //   category_id: body.category_id,
+    //   city_id: body.city_id,
+    //   platform_id: body.platform_id,
+    //   description_ai: description,
+    //   meta_description: metaDescription,
+    // });
 
     // === Prompt builder ===
     const buildPrompt = (type, title, url, descriptionParam, quantity) => {
