@@ -2,7 +2,7 @@
 /* eslint-disable no-await-in-loop */
 require('dotenv').config();
 
-const { insertProducts } = require('./insertProductsTiqets'); // your DB insert function
+const insertProducts = require('./insertProductsTiqets'); // your DB insert function
 
 const apiKey = process.env.TIQETS_API_KEY;
 const pageSize = 10;
@@ -32,7 +32,7 @@ async function fetchPage(page) {
     }
 
     const data = await res.json();
-    return data.data || [];
+    return data.products || [];
   } catch (err) {
     console.error(`Error fetching page ${page}:`, err);
     return [];
@@ -42,7 +42,7 @@ async function fetchPage(page) {
 async function fetchAndInsertAllProducts() {
   let page = 1;
 
-  while (true) {
+  while (page < 3) {
     const products = await fetchPage(page);
     if (!products.length) {
       console.log('No more products to fetch, stopping.');

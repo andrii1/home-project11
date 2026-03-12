@@ -10,11 +10,11 @@ const parseNumber = require('../parseNumber.js');
 // const products4 = require('./data/gygTopPerforming.js');
 
 // const products = [...products2, ...products3, ...products4];
-const useTiqetsApi = require('./useTiqetsApi.js');
+// const useTiqetsApi = require('./useTiqetsApi.js');
 
 // Credentials (from .env)
-const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;
-const API_PATH = process.env.API_PATH_ACTIVITIES_LOCAL;
+const USER_UID = process.env.USER_UID_ACTIVITIES_PROD;
+const API_PATH = process.env.API_PATH_ACTIVITIES_PROD;
 
 const OpenAI = require('openai');
 
@@ -24,15 +24,15 @@ const openai = new OpenAI({
 
 // fetch helpers
 
-const today = new Date();
-const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+// const today = new Date();
+// const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-const allowedDays = [0, 1, 2, 3, 4, 5, 6];
+// const allowedDays = [0, 1, 2, 3, 4, 5, 6];
 
-if (!allowedDays.includes(todayDay)) {
-  console.log('Not an allowed day, skipping job.');
-  process.exit(0);
-}
+// if (!allowedDays.includes(todayDay)) {
+//   console.log('Not an allowed day, skipping job.');
+//   process.exit(0);
+// }
 
 async function createCategoryWithChatGpt(
   categories,
@@ -190,8 +190,9 @@ async function insertProduct(product) {
   return data;
 }
 
-const insertProducts = async () => {
-  products = await useTiqetsApi();
+const insertProducts = async (products) => {
+  // products = await useTiqetsApi();
+
   // console.log(appsParam);
 
   // let products;
@@ -291,5 +292,5 @@ const insertProducts = async () => {
   }
 };
 
-insertProducts().catch(console.log);
+// insertProducts().catch(console.log);
 module.exports = insertProducts;
