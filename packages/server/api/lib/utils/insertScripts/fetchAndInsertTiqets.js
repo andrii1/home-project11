@@ -42,7 +42,7 @@ async function fetchPage(page) {
 async function fetchAndInsertAllProducts() {
   let page = 1;
 
-  while (page < 3) {
+  while (true) {
     const products = await fetchPage(page);
     if (!products.length) {
       console.log('No more products to fetch, stopping.');

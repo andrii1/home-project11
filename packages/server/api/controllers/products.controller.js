@@ -664,7 +664,9 @@ const createProductNode = async (token, body) => {
       if (url) base += ` with website ${url}`;
       if (descriptionParam) base += ` and description: \"${descriptionParam}\"`;
 
-      return `Create ${type} ${base}. ${examples[type]}. ${capitalize(
+      return `Create niche, detailed, long tail ${type} ${base}. ${
+        examples[type]
+      }. ${capitalize(
         type,
       )} should be without hashtag, can be multiple words. Maximum ${quantity} ${type}. Return ${type} separated by comma.`;
     };
