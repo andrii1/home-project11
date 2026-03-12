@@ -452,7 +452,9 @@ const createProductNode = async (token, body) => {
       };
 
     // === Tags ===
-    const promptTags = `Create 3-4 tags for this product: "${body.title}"${
+    const promptTags = `Create 3-5 niche, detailed, long tail tags for this product: "${
+      body.title
+    }"${
       body.url ? ` with link ${body.url}` : ''
     }. Tag should be without hashtag, multiple words allowed, and not contain 'product'. Return tags separated by comma.`;
     const tagsString = (
