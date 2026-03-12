@@ -1053,15 +1053,45 @@ export const ProductView = () => {
             <div className="container-title">
               <h2>{product.title}</h2>
             </div>
-            {product.description && (
-              <p className="product-description main-description">
-                <Markdown>{product.description}</Markdown>
-              </p>
+            {product.summary && (
+              <>
+                <h3>Summary</h3>
+                <p className="product-description main-description">
+                  <Markdown>{product.summary}</Markdown>
+                </p>
+              </>
             )}
-            {product.description_ai && (
-              <p className="product-description main-description">
-                <Markdown>{product.description_ai}</Markdown>
-              </p>
+            {product.description ||
+              (product.description_ai && (
+                <>
+                  <h3>Description</h3>
+                  {product.description && (
+                    <p className="product-description main-description">
+                      <Markdown>{product.description}</Markdown>
+                    </p>
+                  )}
+                  {product.description_ai && (
+                    <p className="product-description main-description">
+                      <Markdown>{product.description_ai}</Markdown>
+                    </p>
+                  )}
+                </>
+              ))}
+            {product.whats_included && (
+              <>
+                <h3>What is included</h3>
+                <p className="product-description main-description">
+                  <Markdown>{product.whats_included}</Markdown>
+                </p>
+              </>
+            )}
+            {product.whats_excluded && (
+              <>
+                <h3>What is excluded</h3>
+                <p className="product-description main-description">
+                  <Markdown>{product.whats_excluded}</Markdown>
+                </p>
+              </>
             )}
           </div>
 
@@ -1311,6 +1341,22 @@ export const ProductView = () => {
           </div> */}
           <div className="container-details container-badges">
             <h2 className="no-margin">Location</h2>
+            {product.address && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Address: </p>
+                  <div>{product.address}</div>
+                </div>
+              </div>
+            )}
+            {product.postal_code && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Postal code: </p>
+                  <div>{product.postal_code}</div>
+                </div>
+              </div>
+            )}
             <div className="container-tags">
               <div className="badges">
                 <p>Country: </p>
