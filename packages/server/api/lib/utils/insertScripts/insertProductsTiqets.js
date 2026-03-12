@@ -895,6 +895,7 @@ const insertProducts = async () => {
         currency: product.currency,
         rating,
         reviews,
+        summary: product.summary,
         description: product.description,
         url: cleanUrl,
         url_affiliate: product.product_url,
@@ -902,6 +903,18 @@ const insertProducts = async () => {
         categoryId,
         cityId,
         platformId,
+        address: product.address,
+        postal_code: product.postal_code,
+        whats_included: product.whats_included,
+        whats_excluded: product.whats_excluded,
+        duration: product.duration,
+        wheelchair_access: product.wheelchair_access,
+        smartphone_ticket: product.smartphone_ticket,
+        geolocation_lat: product.geolocation_lat,
+        geolocation_lng: product.geolocation_lng,
+        image_alt_text: product.image_alt_text,
+        image_credit: product.image_credit,
+        bestseller: product.promo_label === 'bestseller',
       });
       const { productId } = newProduct;
       const newProductTitle = newProduct.productTitle;
