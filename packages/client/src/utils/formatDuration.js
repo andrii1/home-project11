@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 export function formatDuration(duration) {
   const [h, m, s] = duration.split(':').map(Number);
   const result = [];

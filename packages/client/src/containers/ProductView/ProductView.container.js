@@ -798,6 +798,8 @@ export const ProductView = () => {
     );
   });
 
+  const isBestseller = Boolean(Number(product.bestseller));
+
   if (error) {
     return (
       <>
@@ -849,38 +851,51 @@ export const ProductView = () => {
             {product.rating && (
               <Rating rating={product.rating} reviews={product.reviews} />
             )}
-            <div className="price-group">
-              {/* Discount */}
-              <div className="from-discount-group">
-                <span className="price-label">From</span>
-                {discount > 0 && (
-                  <span className="original-price">
-                    {product.currency === 'USD' && '$ '}
-                    {product.currency === 'EUR' && '€ '}
-                    {Math.floor(originalPrice)}.
-                    {originalPrice.toFixed(2).split('.')[1]}
-                  </span>
+            {product.price && (
+              <div className="price-group">
+                {isBestseller && (
+                  <div>
+                    <Badge
+                      backgroundColor="#e53935"
+                      size="small"
+                      label="Bestseller"
+                    />
+                  </div>
                 )}
+                {/* Discount */}
+                <div className="from-discount-group">
+                  <span className="price-label">From</span>
+                  {discount > 0 && (
+                    <span className="original-price">
+                      {product.currency === 'USD' && '$ '}
+                      {product.currency === 'EUR' && '€ '}
+                      {Math.floor(originalPrice)}.
+                      {originalPrice.toFixed(2).split('.')[1]}
+                    </span>
+                  )}
 
-                {discount > 0 && <span className="discount">-{discount}%</span>}
+                  {discount > 0 && (
+                    <span className="discount">-{discount}%</span>
+                  )}
+                </div>
+                {/* Original price */}
+                <div className="price">
+                  {product.currency === 'USD' && (
+                    <span className="currency">$</span>
+                  )}
+                  {product.currency === 'EUR' && (
+                    <span className="currency">€</span>
+                  )}
+                  <span className="amount">
+                    {Math.floor(parseFloat(product.price))}
+                  </span>
+                  <span className="cents">
+                    {parseFloat(product.price).toFixed(2).split('.')[1]}
+                  </span>
+                  {/* Show original price crossed if discount exists */}
+                </div>
               </div>
-              {/* Original price */}
-              <div className="price">
-                {product.currency === 'USD' && (
-                  <span className="currency">$</span>
-                )}
-                {product.currency === 'EUR' && (
-                  <span className="currency">€</span>
-                )}
-                <span className="amount">
-                  {Math.floor(parseFloat(product.price))}
-                </span>
-                <span className="cents">
-                  {parseFloat(product.price).toFixed(2).split('.')[1]}
-                </span>
-                {/* Show original price crossed if discount exists */}
-              </div>
-            </div>
+            )}
           </div>
           <div className="container-deal-actions">
             <div className="container-appview-buttons">
