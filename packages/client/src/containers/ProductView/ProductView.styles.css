@@ -140,6 +140,18 @@ h2.no-margin {
   margin: 0rem !important;
 }
 
+.activity-img-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.activity-img-container span {
+  font-size: 0.75rem;
+  color: #555;
+}
+
 .appview-image-activities {
   width: 40%;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

@@ -833,11 +833,14 @@ export const ProductView = () => {
             <h1 className="hero-header">{product?.title}</h1>
           </div>
           {product.url_image && (
-            <img
-              className="appview-image-activities"
-              alt={`${product.title}`}
-              src={product.url_image}
-            />
+            <div className="activity-img-container">
+              <img
+                className="appview-image-activities"
+                alt={product.image_alt_text || product.title}
+                src={product.url_image}
+              />
+              {product.image_credit && <span>Photo by Tiqets</span>}
+            </div>
           )}
           {/* {product.url_image && (
             <div
