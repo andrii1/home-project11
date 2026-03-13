@@ -13,8 +13,8 @@ const parseNumber = require('../parseNumber.js');
 // const useTiqetsApi = require('./useTiqetsApi.js');
 
 // Credentials (from .env)
-const USER_UID = process.env.USER_UID_ACTIVITIES_PROD;
-const API_PATH = process.env.API_PATH_ACTIVITIES_PROD;
+const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;
+const API_PATH = process.env.API_PATH_ACTIVITIES_LOCAL;
 
 const OpenAI = require('openai');
 
@@ -205,11 +205,11 @@ const insertProducts = async (products) => {
       const platform = 'Tiqets';
       const platformUrl = 'http://tiqets.com/';
 
-      const country = product.country_name;
+      const country = product.address.country_name;
       let area;
       // const area = product['Area/State']?.trim() || null;
-      const city = product.city_name;
-      const cleanUrl = product.product_url.split('?')[0];
+      const city = product.address.city_name;
+      const cleanUrl = product.experience_url.split('?')[0];
 
       const rating = product.ratings?.average || null;
       const reviews = product.ratings?.total || 0;
@@ -222,7 +222,7 @@ const insertProducts = async (products) => {
       const createdCategory = await createCategoryWithChatGpt(
         existingCategories,
         product.title,
-        product.summary,
+        product.tagline,
         product.description,
       );
 
@@ -246,47 +246,37 @@ const insertProducts = async (products) => {
       const { cityId } = newCity;
       console.log('Inserted city:', newCity);
 
-      const newProduct = await insertProduct({
+      const productData = {
         title: product.title,
         external_id: product.id,
-        price: product.price,
+        price: product.from_price,
         currency: product.currency,
         rating,
         reviews,
-        summary: product.summary,
+        summary: product.tagline,
         description: product.description,
         url: cleanUrl,
-        url_affiliate: product.product_url,
-        discount_percentage: product.discount_percentage,
+        url_affiliate: product.experience_url,
         category_id: categoryId,
         city_id: cityId,
         platform_id: platformId,
-        address: product.address,
-        postal_code: product.postal_code,
-        whats_included: product.whats_included,
-        whats_excluded: product.whats_excluded,
-        duration: product.duration,
-        wheelchair_access: product.wheelchair_access,
-        smartphone_ticket: product.smartphone_ticket,
-        geolocation_lat: product.geolocation?.lat,
-        geolocation_lng: product.geolocation?.lng,
-        image_alt_text: product.image_alt_text,
-        image_credit: product.image_credit,
-        bestseller: product.promo_label === 'bestseller',
+        address: product.address?.street,
+        postal_code: product.address?.postal_code,
+        geolocation_lat: product.address?.lat,
+        geolocation_lng: product.address?.lng,
         url_image: product.images?.[0]?.large,
         image_alt_text: product.images?.[0]?.alt_text,
         image_credit: product.images?.[0]?.credit,
-        address: product.venue?.address,
-        postal_code: product.venue?.postal_code,
-      });
+      };
+
+      console.log('Product being inserted:', productData);
+
+      const newProduct = await insertProduct(productData);
       const { productId } = newProduct;
       const newProductTitle = newProduct.productTitle;
       console.log('Inserted product:', newProduct);
     } catch (err) {
-      console.error(
-        `❌ Failed to insert product ${product['Tour ID']}:`,
-        err.message,
-      );
+      console.error(`❌ Failed to insert product ${product.id}:`, err.message);
       // continue with next app
     }
   }

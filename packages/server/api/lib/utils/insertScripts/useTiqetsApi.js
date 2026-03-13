@@ -153,17 +153,22 @@ const useAmazon = async () => {
 
 async function getProducts() {
   try {
-    const response = await fetch('https://api.tiqets.com/v2/products?page=5', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': 'my user agent',
-        Authorization: `Token ${apiKey}`,
+    const response = await fetch(
+      'https://api.tiqets.com/v2/experiences?page=1',
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'User-Agent': 'my user agent',
+          Authorization: `Token ${apiKey}`,
+        },
       },
-    });
+    );
 
     const data = await response.json();
-    const products = data.products;
+    console.log('data', data);
+
+    const products = data.experiences;
     console.log(products);
 
     return products;
