@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-await-in-loop */
@@ -486,7 +487,7 @@ export const ProductView = () => {
         urlAffiliate={item.url_affiliate}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image || globe}
+        urlImage={item.url_image}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
         rating={item.rating}
@@ -509,7 +510,7 @@ export const ProductView = () => {
         urlAffiliate={item.url_affiliate}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image || globe}
+        urlImage={item.url_image}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
         rating={item.rating}
@@ -532,7 +533,7 @@ export const ProductView = () => {
         urlAffiliate={item.url_affiliate}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image || globe}
+        urlImage={item.url_image}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
         rating={item.rating}
@@ -555,7 +556,7 @@ export const ProductView = () => {
         urlAffiliate={item.url_affiliate}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image || globe}
+        urlImage={item.url_image}
         topic={item.categoryTitle}
         productTitle={item.productTitle}
         rating={item.rating}
@@ -831,15 +832,32 @@ export const ProductView = () => {
           <div className="header">
             <h1 className="hero-header">{product?.title}</h1>
           </div>
-          {product.url_image ? (
+          {product.url_image && (
+            <img
+              className="appview-image-activities"
+              alt={`${product.title}`}
+              src={product.url_image}
+            />
+          )}
+          {/* {product.url_image && (
+            <div
+              style={{
+                backgroundImage: `url(${product.url_image})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+              }}
+            ></div>
+          )} */}
+          {/* {product.url_image && (
             <img
               className="appview-icon default-icon"
               alt={`${product.title}`}
               src={product.url_image || mousePointer}
             />
-          ) : (
-            <Globe size="15rem" className="appview-icon default-icon" />
-          )}
+          )} */}
+          {/* <span className="img-emoji">🌍</span>
+          <Globe size="15rem" className="appview-icon default-icon" /> */}
+
           {/* <img
             className={`appview-icon ${!product.url_icon && 'default-icon'}`}
             alt={`${product.title}`}

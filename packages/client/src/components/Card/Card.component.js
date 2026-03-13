@@ -78,15 +78,23 @@ export const Card = ({
 
   return (
     <Link to={cardUrl} className={listCard ? 'card-list' : 'card-category'}>
-      <Link to={cardUrl} className={`card-image ${listCard ? 'list' : ''}`}>
-        <img
+      <div
+        style={{
+          backgroundImage: urlImage ? `url(${urlImage})` : 'none',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+        }}
+        className={`card-image ${listCard ? 'list' : ''}`}
+      >
+        {!urlImage && <span className="img-emoji">🌍</span>}
+        {/* <img
           className={`${listCard ? 'img-app-icon-list' : 'img-app-icon'} ${
             urlImageIcon ? 'icon-shadow' : ''
           }`}
           alt="test"
           src={urlImage}
-        />
-      </Link>
+        /> */}
+      </div>
 
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
@@ -95,7 +103,7 @@ export const Card = ({
           </div>
           {/* <Badge label={appTitle} size="small" /> */}
         </div>
-        {description && (
+        {/* {description && (
           <div className="card-description">
             {`${description
               .split(' ')
@@ -105,7 +113,7 @@ export const Card = ({
               )
               .join(' ')}...`}
           </div>
-        )}
+        )} */}
         {rating && <Rating rating={rating} reviews={reviews} />}
         {price && (
           <div>

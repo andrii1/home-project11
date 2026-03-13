@@ -140,6 +140,12 @@ h2.no-margin {
   margin: 0rem !important;
 }
 
+.appview-image-activities {
+  width: 40%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 1.5rem;
+}
+
 .appview-image,
 .appview-icon {
   max-height: 15rem;
@@ -481,6 +487,9 @@ span.underline:hover {
   }
   .container-appview h1 {
     font-size: 1.75rem;
+  }
+  .appview-image-activities {
+    width: 100%;
   }
 }
 
