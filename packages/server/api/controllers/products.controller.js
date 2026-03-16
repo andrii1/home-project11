@@ -284,6 +284,7 @@ const getProductsBy = async (params) => {
           'areas.slug as areaSlug',
           'countries.title as countryTitle',
           'countries.slug as countrySlug',
+          'countries.iso_code as countryIsoCode',
           knex.raw(`(
         SELECT COUNT(*)
         FROM favorites
@@ -392,6 +393,7 @@ const getProductById = async (id) => {
         'areas.slug as areaSlug',
         'countries.title as countryTitle',
         'countries.slug as countrySlug',
+        'countries.iso_code as countryIsoCode',
       )
       .join('categories', 'products.category_id', '=', 'categories.id')
       .leftJoin('cities', 'products.city_id', 'cities.id')

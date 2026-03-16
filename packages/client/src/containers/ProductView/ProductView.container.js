@@ -30,6 +30,7 @@ import { ThumbsUp, ThumbsDown, Globe } from 'lucide-react';
 import Rating from '../../components/Rating/Rating.component';
 import globe from '../../assets/images/globe.svg';
 import { formatDuration } from '../../utils/formatDuration';
+import { getFlagEmoji } from '../../utils/getFlagEmoji';
 
 import {
   faEnvelope,
@@ -492,6 +493,7 @@ export const ProductView = () => {
         productTitle={item.productTitle}
         rating={item.rating}
         reviews={item.reviews}
+        isoCode={item.countryIsoCode}
       />
     );
   });
@@ -515,6 +517,7 @@ export const ProductView = () => {
         productTitle={item.productTitle}
         rating={item.rating}
         reviews={item.reviews}
+        isoCode={item.countryIsoCode}
       />
     );
   });
@@ -538,6 +541,7 @@ export const ProductView = () => {
         productTitle={item.productTitle}
         rating={item.rating}
         reviews={item.reviews}
+        isoCode={item.countryIsoCode}
       />
     );
   });
@@ -561,6 +565,7 @@ export const ProductView = () => {
         productTitle={item.productTitle}
         rating={item.rating}
         reviews={item.reviews}
+        isoCode={item.countryIsoCode}
       />
     );
   });
@@ -842,6 +847,12 @@ export const ProductView = () => {
               {product.image_credit && <span>{product.image_credit}</span>}
             </div>
           )}
+          {!product.url_image && product.countryIsoCode && (
+            <span className="img-emoji">
+              {getFlagEmoji(product.countryIsoCode)}
+            </span>
+          )}
+
           {/* {product.url_image && (
             <div
               style={{

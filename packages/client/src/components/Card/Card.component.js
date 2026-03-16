@@ -13,6 +13,7 @@ import {
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import Rating from '../Rating/Rating.component';
 import { useUserContext } from '../../userContext';
+import { getFlagEmoji } from '../../utils/getFlagEmoji';
 
 import './Card.styles.css';
 
@@ -44,10 +45,13 @@ export const Card = ({
   rating,
   reviews,
   discount,
+  isoCode,
 }) => {
   const { user } = useUserContext();
   // Calculate original price
   const originalPrice = discount > 0 ? price / (1 - discount / 100) : price;
+  // Convert ISO alpha-2 code to flag emoji
+
   if (smallCard) {
     return (
       <Link
@@ -86,7 +90,10 @@ export const Card = ({
         }}
         className={`card-image ${listCard ? 'list' : ''}`}
       >
-        {!urlImage && <span className="img-emoji">🌍</span>}
+        {!urlImage && isoCode && (
+          <span className="img-emoji">{getFlagEmoji(isoCode)}</span>
+        )}
+        {!urlImage && !isoCode && <span className="img-emoji">🌍</span>}
         {/* <img
           className={`${listCard ? 'img-app-icon-list' : 'img-app-icon'} ${
             urlImageIcon ? 'icon-shadow' : ''
@@ -226,6 +233,7 @@ Card.propTypes = {
   rating: PropTypes.number.isRequired,
   reviews: PropTypes.number,
   discount: PropTypes.number,
+  isoCode: PropTypes.string,
 };
 
 Card.defaultProps = {
@@ -255,4 +263,5 @@ Card.defaultProps = {
   urlAffiliate: null,
   reviews: null,
   discount: null,
+  isoCode: null,
 };

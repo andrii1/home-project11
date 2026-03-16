@@ -1364,6 +1364,7 @@ export const Products = () => {
                   rating={product.rating}
                   reviews={product.reviews}
                   discount={product.discount_percentage}
+                  isoCode={product.countryIsoCode}
                 />
               );
             })}
