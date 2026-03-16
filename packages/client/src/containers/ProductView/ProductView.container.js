@@ -839,7 +839,7 @@ export const ProductView = () => {
                 alt={product.image_alt_text || product.title}
                 src={product.url_image}
               />
-              {product.image_credit && <span>Photo by Tiqets</span>}
+              {product.image_credit && <span>{product.image_credit}</span>}
             </div>
           )}
           {/* {product.url_image && (
