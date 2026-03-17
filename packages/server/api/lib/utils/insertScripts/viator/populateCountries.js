@@ -1,8 +1,10 @@
+/* eslint-disable no-restricted-syntax */
 // scripts/populateCountriesViatorId.js
 
 require('dotenv').config();
 const knex = require('../../../../../config/db'); // adjust path to your knex config
 const fetch = require('node-fetch'); // Node 20+ has global fetch, skip require if so
+const fs = require('fs');
 
 const apiKey = process.env.VIATOR_API_KEY;
 
@@ -55,6 +57,7 @@ function normalizeCountry(title) {
     Curacao: 'Curaçao',
     Macao: 'Macao',
     'Hong Kong SAR': 'Hong Kong',
+    Samoa: 'American Samoa',
   };
 
   // Step 1: Remove leading "The" and anything after comma
@@ -102,27 +105,32 @@ async function populateCountriesViatorId() {
       (d) => d.type === 'COUNTRY',
     );
 
-    // 3️⃣ Fetch all countries from your DB
-    const dbCountries = await knex('countries').select('id', 'title');
+    fs.writeFileSync(
+      './viator-countries.json',
+      JSON.stringify(viatorCountries, null, 2),
+    );
 
-    // 4️⃣ Match and update
-    for (const dbCountry of dbCountries) {
-      const match = viatorCountries.find(
-        (v) => normalizeCountry(v.name) === dbCountry.title.toLowerCase(),
-      );
+    // // 3️⃣ Fetch all countries from your DB
+    // const dbCountries = await knex('countries').select('id', 'title');
 
-      if (match) {
-        await knex('countries')
-          .where('id', dbCountry.id)
-          .update({ viator_id: match.destinationId });
+    // // 4️⃣ Match and update
+    // for (const dbCountry of dbCountries) {
+    //   const match = viatorCountries.find(
+    //     (v) => normalizeCountry(v.name) === dbCountry.title.toLowerCase(),
+    //   );
 
-        console.log(
-          `Updated: ${dbCountry.title} → Viator ID ${match.destinationId}`,
-        );
-      } else {
-        console.log(`No Viator match found for: ${dbCountry.title}`);
-      }
-    }
+    //   if (match) {
+    //     await knex('countries')
+    //       .where('id', dbCountry.id)
+    //       .update({ viator_id: match.destinationId });
+
+    //     console.log(
+    //       `Updated: ${dbCountry.title} → Viator ID ${match.destinationId}`,
+    //     );
+    //   } else {
+    //     console.log(`No Viator match found for: ${dbCountry.title}`);
+    //   }
+    // }
 
     console.log('Finished updating countries with Viator IDs');
   } catch (err) {
