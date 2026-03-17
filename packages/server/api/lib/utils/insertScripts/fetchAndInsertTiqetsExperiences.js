@@ -40,7 +40,7 @@ async function fetchPage(page) {
 }
 
 async function fetchAndInsertAllProducts() {
-  let page = 1;
+  let page = 705;
 
   while (true) {
     const products = await fetchPage(page);

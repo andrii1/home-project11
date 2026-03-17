@@ -154,7 +154,7 @@ const useAmazon = async () => {
 async function getProducts() {
   try {
     const response = await fetch(
-      'https://api.tiqets.com/v2/experiences?page=1',
+      'https://api.tiqets.com/v2/experiences?page=725',
       {
         method: 'GET',
         headers: {
@@ -169,7 +169,7 @@ async function getProducts() {
     console.log('data', data);
 
     const products = data.experiences;
-    console.log(products);
+    // console.log(products);
 
     return products;
   } catch (error) {
