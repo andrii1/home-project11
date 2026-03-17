@@ -1,33 +1,11 @@
-/* TODO: This is an example controller to illustrate a server side controller.
-Can be deleted as soon as the first real controller is added. */
+// scripts/populateCountriesViatorId.js
 
-const knex = require('../../config/db');
-const HttpError = require('../lib/utils/http-error');
-const generateSlug = require('../lib/utils/generateSlug');
+require('dotenv').config();
+const knex = require('../../../../../config/db'); // adjust path to your knex config
+const fetch = require('node-fetch'); // Node 20+ has global fetch, skip require if so
 
-// Helper: ensure the slug is unique by checking the DB
-async function ensureUniqueSlug(baseSlug) {
-  let slug = baseSlug;
-  let counter = 1;
+const apiKey = process.env.VIATOR_API_KEY;
 
-  // eslint-disable-next-line no-await-in-loop
-  while (await slugExists(slug)) {
-    const suffix = `-${counter}`;
-    const maxBaseLength = 200 - suffix.length;
-    slug = `${baseSlug.slice(0, maxBaseLength)}${suffix}`;
-    counter += 1;
-  }
-
-  return slug;
-}
-
-// Helper: check if a slug already exists in the database
-async function slugExists(slug) {
-  const existing = await knex('countries').where({ slug }).first();
-  return !!existing;
-}
-
-// Normalize a country name for DB and duplicates
 function normalizeCountry(title) {
   if (!title) return '';
 
@@ -98,60 +76,61 @@ function normalizeCountry(title) {
   return normalized;
 }
 
-const getCountries = async () => {
+async function populateCountriesViatorId() {
   try {
-    const countries = await knex('countries')
-      .select('countries.*')
-      .orderBy('countries.title');
-    return countries;
-  } catch (error) {
-    return error.message;
-  }
-};
+    // 1️⃣ Fetch all Viator destinations
+    const response = await fetch(
+      'https://api.viator.com/partner/destinations',
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'exp-api-key': apiKey,
+          Accept: 'application/json;version=2.0',
+          'Accept-Language': 'en-US',
+        },
+      },
+    );
 
-const createCountry = async (token, body) => {
-  try {
-    const userUid = token.split(' ')[1];
-    const user = (await knex('users').where({ uid: userUid }))[0];
-    if (!user) {
-      throw new HttpError('User not found', 401);
+    const data = await response.json();
+    if (!data.destinations || data.destinations.length === 0) {
+      console.log('No destinations returned from Viator API');
+      return;
     }
 
-    // Optional: check for existing country
-    const existing = await knex('countries')
-      .whereRaw('LOWER(title) = ?', [normalizeCountry(body.title)])
-      .first();
+    // 2️⃣ Filter countries
+    const viatorCountries = data.destinations.filter(
+      (d) => d.type === 'COUNTRY',
+    );
 
-    if (existing) {
-      return {
-        successful: true,
-        existing: true,
-        countryId: existing.id,
-        countryTitle: body.title,
-      };
+    // 3️⃣ Fetch all countries from your DB
+    const dbCountries = await knex('countries').select('id', 'title');
+
+    // 4️⃣ Match and update
+    for (const dbCountry of dbCountries) {
+      const match = viatorCountries.find(
+        (v) => normalizeCountry(v.name) === dbCountry.title.toLowerCase(),
+      );
+
+      if (match) {
+        await knex('countries')
+          .where('id', dbCountry.id)
+          .update({ viator_id: match.destinationId });
+
+        console.log(
+          `Updated: ${dbCountry.title} → Viator ID ${match.destinationId}`,
+        );
+      } else {
+        console.log(`No Viator match found for: ${dbCountry.title}`);
+      }
     }
 
-    const baseSlug = generateSlug(body.title);
-    const uniqueSlug = await ensureUniqueSlug(baseSlug);
-
-    const insertData = {
-      title: body.title,
-      slug: uniqueSlug,
-    };
-
-    const [countryId] = await knex('countries').insert(insertData);
-
-    return {
-      successful: true,
-      countryId,
-      countryTitle: body.title,
-    };
-  } catch (error) {
-    return error.message;
+    console.log('Finished updating countries with Viator IDs');
+  } catch (err) {
+    console.error('Error populating countries Viator ID:', err);
+  } finally {
+    await knex.destroy();
   }
-};
+}
 
-module.exports = {
-  getCountries,
-  createCountry,
-};
+// Run the script
+populateCountriesViatorId();
