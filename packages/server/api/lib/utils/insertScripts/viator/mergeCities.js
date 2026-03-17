@@ -6,7 +6,7 @@ async function mergeCityDuplicates() {
   try {
     // 1️⃣ Find all cities with "-1" in slug
     const duplicates = await knex('cities')
-      .where('slug', 'like', '%-1%')
+      .where('slug', 'like', '%-2%')
       .select('*');
 
     console.log(`Found ${duplicates.length} duplicate city slugs.`);
