@@ -40,9 +40,7 @@ exports.up = function (knex) {
     table.string('meeting_point').nullable();
     table.boolean('mobile_ticket').defaultTo(false);
     table.boolean('likely_to_sell_out').defaultTo(false);
-
     table.text('meta_description').nullable();
-
     table.datetime('last_checked_at').nullable();
     table
       .enu('status', ['active', 'unavailable', 'deleted'])

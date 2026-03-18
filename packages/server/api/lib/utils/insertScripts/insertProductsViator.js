@@ -131,45 +131,6 @@ async function insertCity(title, areaId, countryId) {
   return data; // assume it returns { id, full_name }
 }
 
-// async function insertProduct({
-//   title,
-//   external_id,
-//   rating,
-//   price,
-//   reviews,
-//   url,
-//   url_affiliate,
-//   discount_percentage,
-//   categoryId,
-//   cityId,
-//   platformId,
-// }) {
-//   const body = {
-//     title,
-//     external_id,
-//     rating,
-//     price,
-//     reviews,
-//     url,
-//     url_affiliate,
-//     discount_percentage,
-//     category_id: categoryId,
-//     city_id: cityId,
-//     platform_id: platformId,
-//   };
-
-//   const res = await fetch(`${API_PATH}/products/node`, {
-//     method: 'POST',
-//     headers: {
-//       token: `token ${USER_UID}`,
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(body),
-//   });
-//   const data = await res.json();
-//   return data; // assume it returns { id, full_name }
-// }
-
 async function insertProduct(product) {
   const res = await fetch(`${API_PATH}/products/node`, {
     method: 'POST',
@@ -199,14 +160,27 @@ const insertProducts = async (products) => {
       const platform = 'Viator';
       const platformUrl = 'http://viator.com/';
 
-      const country = product.country_name;
-      let area;
-      // const area = product['Area/State']?.trim() || null;
-      const city = product.city_name;
-      const cleanUrl = product.product_url.split('?')[0];
+      const city = product.address.city_name;
+      const cleanUrl = product.productUrl.split('?')[0];
+      const discount =
+        ((product.pricing?.summary?.fromPriceBeforeDiscount -
+          product.pricing?.summary?.fromPrice) /
+          product.pricing?.summary?.fromPriceBeforeDiscount) *
+        100;
+      const minutes = product.duration?.fixedDurationInMinutes;
 
-      const rating = product.ratings?.average || null;
-      const reviews = product.ratings?.total || 0;
+      const durationHours = minutes
+        ? Number((minutes / 60).toFixed(2)) // keeps 2 decimal places for decimal(5,2)
+        : null;
+
+      const image = product.images?.[0];
+      const variant400 = image?.variants?.find((v) => v.height === 400);
+      const urlImage400 = variant400?.url;
+
+      const hasFreeCancellation = product.flags.includes('FREE_CANCELLATION');
+      const isPrivateTour = product.flags.includes('PRIVATE_TOUR');
+      const likelyToSellOut = product.flags.includes('LIKELY_TO_SELL_OUT');
+      const isInstant = product.confirmationType === 'INSTANT';
 
       const newPlatform = await insertPlatform(platform, platformUrl);
       const { platformId } = newPlatform;
@@ -223,42 +197,37 @@ const insertProducts = async (products) => {
       const { categoryId } = newCategory;
       console.log('Inserted category:', newCategory);
 
-      const newProduct = await insertProduct({
+      const productData = {
         title: product.title,
         external_id: product.productCode,
-        price: product.price,
-        currency: product.currency,
+        price: product.pricing?.summary?.fromPrice,
+        currency: product.pricing?.currency,
         rating: product.reviews?.combinedAverageRating,
         reviews: product.reviews?.totalReviews,
         description: product.description,
         url: cleanUrl,
-        url_affiliate: product.product_url,
-        discount_percentage: product.discount_percentage,
+        url_affiliate: product.productUrl,
+        discount_percentage: discount,
         category_id: categoryId,
         city_id: cityId,
         platform_id: platformId,
+        duration: durationHours,
+        url_image: urlImage400,
+        image_alt_text: product.images?.[0]?.caption,
+        free_cancellation: hasFreeCancellation,
+        likely_to_sell_out: likelyToSellOut,
+        instant_confirmation: isInstant,
+        private_tour: isPrivateTour,
+      };
 
-        duration: product.duration,
+      console.log('Product being inserted:', productData);
 
-        geolocation_lat: product.geolocation?.lat,
-        geolocation_lng: product.geolocation?.lng,
-        image_alt_text: product.image_alt_text,
-        image_credit: product.image_credit,
-        bestseller: product.promo_label === 'bestseller',
-        url_image: product.images?.[0]?.large,
-        image_alt_text: product.images?.[0]?.alt_text,
-        image_credit: product.images?.[0]?.credit,
-        address: product.venue?.address,
-        postal_code: product.venue?.postal_code,
-      });
+      const newProduct = await insertProduct(productData);
       const { productId } = newProduct;
       const newProductTitle = newProduct.productTitle;
       console.log('Inserted product:', newProduct);
     } catch (err) {
-      console.error(
-        `❌ Failed to insert product ${product['Tour ID']}:`,
-        err.message,
-      );
+      console.error(`❌ Failed to insert product ${product.id}:`, err.message);
       // continue with next app
     }
   }
