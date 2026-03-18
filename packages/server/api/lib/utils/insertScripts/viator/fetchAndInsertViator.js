@@ -112,9 +112,9 @@ async function fetchAndInsertViatorProducts() {
 
   console.log('\n✅ All cities processed.');
   // Close Knex connection
-  await knex.destroy();
+  // await knex.destroy();
 
-  console.log('Knex connection closed. Script finished.');
+  // console.log('Knex connection closed. Script finished.');
 }
 
 // Run
