@@ -1399,18 +1399,54 @@ export const ProductView = () => {
                 </div>
               </div>
             )}
-            <div className="container-tags">
-              <div className="badges">
-                <p>Wheelchair access: </p>
-                <div>{product.wheelchair_access ? 'Yes' : 'No'}</div>
+            {product.wheelchair_access && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Wheelchair access: </p>
+                  <div>{product.wheelchair_access ? 'Yes' : 'No'}</div>
+                </div>
               </div>
-            </div>
-            <div className="container-tags">
-              <div className="badges">
-                <p>Smartphone ticket: </p>
-                <div>{product.smartphone_ticket ? 'Yes' : 'No'}</div>
+            )}
+            {product.smartphone_ticket && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Smartphone ticket: </p>
+                  <div>{product.smartphone_ticket ? 'Yes' : 'No'}</div>
+                </div>
               </div>
-            </div>
+            )}
+            {product.private_tour !== undefined && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Private tour: </p>
+                  <div>{product.private_tour ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+            )}
+            {product.free_cancellation !== undefined && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Free cancellation: </p>
+                  <div>{product.free_cancellation ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+            )}
+            {product.likely_to_sell_out !== undefined && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Likely to sell out: </p>
+                  <div>{product.likely_to_sell_out ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+            )}
+            {product.instant_confirmation !== undefined && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p>Instant confirmation: </p>
+                  <div>{product.instant_confirmation ? 'Yes' : 'No'}</div>
+                </div>
+              </div>
+            )}
           </div>
           <div className="container-details container-badges">
             <h2 className="no-margin">Location</h2>
