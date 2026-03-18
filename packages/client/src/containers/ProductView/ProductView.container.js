@@ -793,8 +793,6 @@ export const ProductView = () => {
   const originalPrice =
     discount > 0 ? product.price / (1 - discount / 100) : product.price;
 
-  console.log('duration', product.duration_hours);
-
   const faqsItems = faqs.map((faq) => {
     return (
       <div key={faq.id}>
