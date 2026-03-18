@@ -59,15 +59,19 @@ const createCity = async (token, body) => {
     //   .andWhere('country_id', body.country_id)
     //   .first();
 
-    const query = knex('cities')
-      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
-      .andWhere('country_id', body.country_id);
+    // const query = knex('cities')
+    //   .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+    //   .andWhere('country_id', body.country_id);
 
-    if (body.area_id) {
-      query.andWhere('area_id', body.area_id);
-    } else {
-      query.whereNull('area_id');
-    }
+    // if (body.area_id) {
+    //   query.andWhere('area_id', body.area_id);
+    // } else {
+    //   query.whereNull('area_id');
+    // }
+
+    // const existing = await query.first();
+
+    const query = knex('cities').where('viator_id', body.viator_id);
 
     const existing = await query.first();
 
@@ -79,6 +83,12 @@ const createCity = async (token, body) => {
         cityTitle: body.title,
       };
     }
+    return {
+      successful: false,
+      existing: false,
+      cityId: null,
+      cityTitle: null,
+    };
 
     const baseSlug = generateSlug(body.title);
     const uniqueSlug = await ensureUniqueSlug(baseSlug);

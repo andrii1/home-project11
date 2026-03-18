@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
 require('dotenv').config();
-const parseNumber = require('../parseNumber.js');
+const parseNumber = require('../../parseNumber.js');
 // const productsDeals = require('./data/getYourGuideProducts.js');
 // const products2 = require('./data/gygBestsellers.js');
 // const products3 = require('./data/gygNew.js');
@@ -118,14 +118,27 @@ async function insertArea(title, countryId) {
   return data; // assume it returns { id, full_name }
 }
 
-async function insertCity(title, areaId, countryId) {
+// async function insertCity(title, areaId, countryId) {
+//   const res = await fetch(`${API_PATH}/cities`, {
+//     method: 'POST',
+//     headers: {
+//       token: `token ${USER_UID}`,
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ title, area_id: areaId, country_id: countryId }),
+//   });
+//   const data = await res.json();
+//   return data; // assume it returns { id, full_name }
+// }
+
+async function insertCity(cityViatorId) {
   const res = await fetch(`${API_PATH}/cities`, {
     method: 'POST',
     headers: {
       token: `token ${USER_UID}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, area_id: areaId, country_id: countryId }),
+    body: JSON.stringify({ viator_id: cityViatorId }),
   });
   const data = await res.json();
   return data; // assume it returns { id, full_name }
@@ -145,7 +158,7 @@ async function insertProduct(product) {
   return data;
 }
 
-const insertProducts = async (products) => {
+const insertProducts = async (products, cityViatorId) => {
   // products = await useTiqetsApi();
 
   // console.log(appsParam);
@@ -160,7 +173,6 @@ const insertProducts = async (products) => {
       const platform = 'Viator';
       const platformUrl = 'http://viator.com/';
 
-      const city = product.address.city_name;
       const cleanUrl = product.productUrl.split('?')[0];
       const discount =
         ((product.pricing?.summary?.fromPriceBeforeDiscount -
@@ -196,6 +208,10 @@ const insertProducts = async (products) => {
       const newCategory = await insertCategory(createdCategory);
       const { categoryId } = newCategory;
       console.log('Inserted category:', newCategory);
+
+      const newCity = await insertCity(cityViatorId);
+      const { cityId } = newCity;
+      console.log('Inserted city:', newCity);
 
       const productData = {
         title: product.title,
