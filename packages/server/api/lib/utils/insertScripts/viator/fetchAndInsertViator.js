@@ -11,7 +11,7 @@ const PAGE_SIZE = 10;
 const throttleMs = 150; // safer than 100 for Viator
 const MAX_CITIES = 1;
 
-const MAX_PAGES_PER_CITY = 50;
+const MAX_PAGES_PER_CITY = 10;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -41,12 +41,17 @@ async function fetchProducts(destinationId, start) {
       },
       body: JSON.stringify({
         filtering: {
-          destinationIds: [destinationId],
+          destination: destinationId,
+        },
+
+        sorting: {
+          sort: 'DEFAULT',
         },
         pagination: {
           start,
           count: PAGE_SIZE,
         },
+        currency: 'USD',
       }),
     });
 
@@ -59,6 +64,8 @@ async function fetchProducts(destinationId, start) {
     }
 
     const data = await res.json();
+    console.log('data', data);
+
     return data.products || [];
   } catch (err) {
     console.error(`Error fetching destination ${destinationId}:`, err);
@@ -104,6 +111,10 @@ async function fetchAndInsertViatorProducts() {
   }
 
   console.log('\n✅ All cities processed.');
+  // Close Knex connection
+  await knex.destroy();
+
+  console.log('Knex connection closed. Script finished.');
 }
 
 // Run
