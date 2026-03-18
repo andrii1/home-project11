@@ -1120,9 +1120,12 @@ export const ProductView = () => {
                   </p>
                 )}
                 {product.description_ai && (
-                  <p className="product-description main-description">
-                    <Markdown>{product.description_ai}</Markdown>
-                  </p>
+                  <>
+                    <h3>AI summary</h3>
+                    <p className="product-description main-description">
+                      <Markdown>{product.description_ai}</Markdown>
+                    </p>
+                  </>
                 )}
               </>
             )}

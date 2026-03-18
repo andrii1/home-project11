@@ -59,6 +59,21 @@ Return ONLY the category name. Nothing else.
   return category;
 }
 
+function minutesToTime(minutes) {
+  if (minutes == null) return null;
+
+  const hrs = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  const secs = 0; // API only gives minutes
+
+  // Pad with zeros
+  const hh = String(hrs).padStart(2, '0');
+  const mm = String(mins).padStart(2, '0');
+  const ss = String(secs).padStart(2, '0');
+
+  return `${hh}:${mm}:${ss}`;
+}
+
 async function fetchCategories() {
   const res = await fetch(`${API_PATH}/categories`);
   const data = await res.json();
@@ -179,11 +194,9 @@ const insertProducts = async (products, cityViatorId) => {
           product.pricing?.summary?.fromPrice) /
           product.pricing?.summary?.fromPriceBeforeDiscount) *
         100;
-      const minutes = product.duration?.fixedDurationInMinutes;
 
-      const durationHours = minutes
-        ? Number((minutes / 60).toFixed(2)) // keeps 2 decimal places for decimal(5,2)
-        : null;
+      const minutes = product.duration?.fixedDurationInMinutes;
+      const duration = minutesToTime(minutes);
 
       const image = product.images?.[0];
       const variant400 = image?.variants?.find((v) => v.height === 400);
@@ -227,7 +240,7 @@ const insertProducts = async (products, cityViatorId) => {
         category_id: categoryId,
         city_id: cityId,
         platform_id: platformId,
-        duration: durationHours,
+        duration,
         url_image: urlImage400,
         image_alt_text: product.images?.[0]?.caption,
         free_cancellation: hasFreeCancellation,
