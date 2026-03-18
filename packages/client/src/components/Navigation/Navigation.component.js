@@ -112,9 +112,8 @@ export const Navigation = () => {
         (item) =>
           item.title.toLowerCase().includes(search.toLowerCase()) ||
           item.description?.toLowerCase().includes(search.toLowerCase()) ||
-          item.descriptionChatGpt
-            ?.toLowerCase()
-            .includes(search.toLowerCase()) ||
+          item.description_ai?.toLowerCase().includes(search.toLowerCase()) ||
+          item.summary?.toLowerCase().includes(search.toLowerCase()) ||
           item.categoryTitle?.toLowerCase().includes(search.toLowerCase()),
       );
     }
