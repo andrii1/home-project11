@@ -13,8 +13,8 @@ const parseNumber = require('../../parseNumber.js');
 // const useTiqetsApi = require('./useTiqetsApi.js');
 
 // Credentials (from .env)
-const USER_UID = process.env.USER_UID_ACTIVITIES_LOCAL;
-const API_PATH = process.env.API_PATH_ACTIVITIES_LOCAL;
+const USER_UID = process.env.USER_UID_ACTIVITIES_PROD;
+const API_PATH = process.env.API_PATH_ACTIVITIES_PROD;
 
 const OpenAI = require('openai');
 
