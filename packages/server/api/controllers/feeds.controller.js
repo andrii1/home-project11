@@ -42,6 +42,13 @@ const getFile = async () => {
       item.ele('g:brand').txt('Book Travel Activities');
       item.ele('g:identifier_exists').txt('no');
 
+      // ✅ Optional reviews
+      if (p.reviews && p.rating) {
+        const review = item.ele('g:review');
+        review.ele('g:review_rating').txt(p.rating); // e.g. 4.8
+        review.ele('g:review_count').txt(p.reviews);
+      }
+
       item
         .ele('g:google_product_category')
         .txt('Arts & Entertainment > Event Tickets > Sightseeing Tours');
