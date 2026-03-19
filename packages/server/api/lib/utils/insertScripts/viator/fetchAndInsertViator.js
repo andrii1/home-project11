@@ -11,7 +11,7 @@ const PAGE_SIZE = 10;
 const throttleMs = 150; // safer than 100 for Viator
 const MAX_PAGES_PER_CITY = 1;
 
-const MAX_CITIES = 500;
+const MAX_CITIES = 1000;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
