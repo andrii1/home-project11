@@ -8,6 +8,7 @@ const getFile = async () => {
       .whereNotNull('title')
       .whereNotNull('price')
       .whereNotNull('url_image')
+      .where('currency', 'USD')
       .limit(1000); // start small
 
     const root = create({ version: '1.0', encoding: 'UTF-8' }).ele('rss', {
@@ -49,9 +50,12 @@ const getFile = async () => {
         review.ele('g:review_count').txt(p.reviews);
       }
 
-      item
-        .ele('g:google_product_category')
-        .txt('Arts & Entertainment > Event Tickets > Sightseeing Tours');
+      item.ele('g:google_product_category').txt('499969');
+
+      const shipping = item.ele('g:shipping');
+      shipping.ele('g:country').txt('US');
+      shipping.ele('g:service').txt('Digital Delivery');
+      shipping.ele('g:price').txt('0 USD');
     });
 
     const xml = root.end({ prettyPrint: true });
