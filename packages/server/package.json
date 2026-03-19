@@ -37,7 +37,8 @@
     "stripe": "^13.3.0",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.3.0",
-    "winston": "^3.7.2"
+    "winston": "^3.7.2",
+    "xmlbuilder2": "^4.0.3"
   },
   "devDependencies": {
     "eslint": "^8.14.0",

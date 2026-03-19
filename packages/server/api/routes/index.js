@@ -33,34 +33,12 @@ const useCases = require('./useCases.router');
 // const industries = require('./industries.router');
 const findAppleIdByUrl = require('./findAppleIdByUrl.router');
 const sitemaps = require('./sitemaps.router');
+const feeds = require('./feeds.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
 //   res.render('index', { title: 'Express' });
 // });
-
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-
-const swaggerOptions = {
-  swaggerDefinition: {
-    info: {
-      version: '1.0',
-      title: 'Final project',
-      description: 'API documentation for the final project',
-      contact: {},
-    },
-    host: '',
-    basePath: '/api',
-  },
-  securityDefinitions: {},
-  apis: ['./api/routes/*.js'],
-};
-
-const swaggerDocument = swaggerJsDoc(swaggerOptions);
-
-// Route for Swagger API Documentation
-router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.use('/exampleResources', exampleResources);
 router.use('/products', products);
@@ -93,5 +71,6 @@ router.use('/useCases', useCases);
 // router.use('/industries', industries);
 router.use('/findAppleIdByUrl', findAppleIdByUrl);
 router.use('/sitemaps', sitemaps);
+router.use('/feeds', feeds);
 
 module.exports = router;
