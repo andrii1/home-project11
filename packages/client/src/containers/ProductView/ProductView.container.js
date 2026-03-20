@@ -818,7 +818,7 @@ export const ProductView = () => {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: product.title,
-    image: product.image_url,
+    image: product.url_image,
     description: descriptionText,
     sku: product.id,
     brand: {
@@ -907,6 +907,38 @@ export const ProductView = () => {
             `${product?.title} - reviews, deals, discounts.`
           }
         />
+        {/* Canonical URL */}
+        <link
+          rel="canonical"
+          href={`https://www.booktravelactivities.com/products/${product.slug}`}
+        />
+        {/* Robots meta for large image preview (Google Discover) */}
+        <meta name="robots" content="max-image-preview:large" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={product.title} />
+        <meta
+          property="og:description"
+          content={product.meta_description || descriptionText}
+        />
+        <meta property="og:image" content={product.url_image} />
+        <meta
+          property="og:url"
+          content={`https://www.booktravelactivities.com/products/${product.slug}`}
+        />
+        <meta property="og:site_name" content="Book Travel Activities" />
+
+        {/* Twitter Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={product.title} />
+        <meta
+          name="twitter:description"
+          content={product.meta_description || descriptionText}
+        />
+        <meta name="twitter:image" content={product.url_image} />
+
+        {/* Rich content */}
         <script type="application/ld+json">
           {JSON.stringify(productSchema)}
         </script>
