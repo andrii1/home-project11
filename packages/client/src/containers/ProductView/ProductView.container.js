@@ -793,6 +793,82 @@ export const ProductView = () => {
   const originalPrice =
     discount > 0 ? product.price / (1 - discount / 100) : product.price;
 
+  const descriptionText = (
+    product.description ||
+    product.summary ||
+    product.description_ai ||
+    'No description available'
+  )
+    .replace(/\*+/g, '')
+    .trim();
+
+  function getPriceValidUntil(days = 30) {
+    const d = new Date();
+    d.setDate(d.getDate() + days);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  // usage
+  const priceValidUntil = getPriceValidUntil(30);
+
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    image: product.image_url,
+    description: descriptionText,
+    sku: product.id,
+    brand: {
+      '@type': 'Brand',
+      name: 'Book Travel Activities',
+    },
+    offers: {
+      '@type': 'Offer',
+      url: `https://www.booktravelactivities.com/products/${product.slug}`,
+      priceCurrency: product.currency,
+      price: product.price,
+      priceValidUntil,
+      itemCondition: 'https://schema.org/NewCondition',
+      availability: `https://schema.org/InStock`,
+    },
+    ...(product.rating && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: product.rating,
+        reviewCount: product.reviews || 0,
+      },
+    }),
+  };
+
+  // 2️⃣ Breadcrumb schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.booktravelactivities.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Products',
+        item: 'https://www.booktravelactivities.com/products',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: product.title,
+        item: `https://www.booktravelactivities.com/products/${product.slug}`,
+      },
+    ],
+  };
+
   const faqsItems = faqs.map((faq) => {
     return (
       <div key={faq.id}>
@@ -831,6 +907,12 @@ export const ProductView = () => {
             `${product?.title} - reviews, deals, discounts.`
           }
         />
+        <script type="application/ld+json">
+          {JSON.stringify(productSchema)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(breadcrumbSchema)}
+        </script>
       </Helmet>
       <main>
         <section className="container-appview">
